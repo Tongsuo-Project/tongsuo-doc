@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>EVP_eea3</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#CONFORMING-TO">CONFORMING TO</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>EVP_eea3 - EVP 128-EEA3 stream cipher</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> #include &lt;openssl/evp.h&gt;
+
+ const EVP_CIPHER *EVP_eea3(void);</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The 3GPP 128-EEA3 stream cipher for EVP.</p>
+
+<p>The 128-EEA3 is a stream cipher that is used to encrypt or decrypt blocks of data using a confidentiality key. The block of data may be between 1 and 2 ^ 32 bits long. The 128-EEA3 algorithm uses ZUC as a keystream generator.</p>
+
+<p>3GPP TS 35.221 is the specification for 128-EEA3 and TS 35.222 is the specification for ZUC algorithm.</p>
+
+<p>Both 128-EEA3 and ZUC algorithms are standardized first as Chinese national cryptographic standards - the GM/T 0001-2012 series.</p>
+
+<dl>
+
+<dt id="EVP_eea3">EVP_eea3()</dt>
+<dd>
+
+<p>The 128-EEA3 stream cipher with a 128-bit key based on the ZUC keystream generation algorithm.</p>
+
+</dd>
+</dl>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>This function returns a <b>EVP_CIPHER</b> structure that contains the implementation of the symmetric cipher. See <a href="../man3/EVP_CIPHER_meth_new.html">EVP_CIPHER_meth_new(3)</a> for details of the <b>EVP_CIPHER</b> structure.</p>
+
+<h1 id="CONFORMING-TO">CONFORMING TO</h1>
+
+<p>3GPP TS 35.221, 3GPP TS 35.222, GB/T 33133.1-2016, GM/T 0001.1-2012 and GM/T 0001.2-2012.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man7/evp.html">evp(7)</a>, <a href="../man3/EVP_EncryptInit.html">EVP_EncryptInit(3)</a>, <a href="../man3/EVP_CIPHER_meth_new.html">EVP_CIPHER_meth_new(3)</a></p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2021 Ant Group. All Rights Reserved. Copyright 2018 BaishanCloud. All Rights Reserved.</p>
+
+
+</body>
+
+</html>
+
+

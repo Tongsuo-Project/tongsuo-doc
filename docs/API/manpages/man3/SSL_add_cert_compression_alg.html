@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SSL_add_cert_compression_alg</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>SSL_cert_compress_cb_fn, SSL_cert_decompress_cb_fn, SSL_add_cert_compression_alg, SSL_CTX_add_cert_compression_alg, SSL_get_cert_compression_compress_id, SSL_get_cert_compression_decompress_id - TLS certificate compression methods</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> #include &lt;openssl/ssl.h&gt;
+
+ typedef int (*SSL_cert_compress_cb_fn)(SSL *s,
+                    const unsigned char *in, size_t inlen,
+                    unsigned char *out, size_t *outlen);
+ typedef int (*SSL_cert_decompress_cb_fn)(SSL *s,
+                    const unsigned char *in, size_t inlen,
+                    unsigned char *out, size_t outlen);
+
+ int SSL_add_cert_compression_alg(SSL *s, int alg_id,
+                                 SSL_cert_compress_cb_fn compress,
+                                 SSL_cert_decompress_cb_fn decompress);
+ int SSL_CTX_add_cert_compression_alg(SSL_CTX *ctx, int alg_id,
+                                     SSL_cert_compress_cb_fn compress,
+                                     SSL_cert_decompress_cb_fn decompress);
+
+ int SSL_get_cert_compression_compress_id(SSL *s);
+ int SSL_get_cert_compression_decompress_id(SSL *s);</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p><b>SSL_cert_compress_cb_fn</b> is a pointer to a function that performs compression. It must write the compressed representation of <b>in</b> to <b>out</b>. <b>inlen</b> is the byte length of the buffer <b>in</b>. <b>*outlen</b> is the total size of the buffer <b>out</b>. Upon exit, <b>*outlen</b> is the actual size of the compressed buffer <b>out</b>. Note that if <b>out</b> is NULL, it only computes the length of the compressed buffer <b>out</b> and write it to <b>*outlen</b>. It returns 1 on success or 0 on error.</p>
+
+<p><b>SSL_cert_decompress_cb_fn</b> is a pointer to a function that performs decompression. The compressed data is passed as <b>in</b> with length <b>inlen</b> and the decompressed result must be exactly <b>outlen</b> bytes long. It returns 1 on success, in which case <b>*out</b> must be set to the result of decompressing <b>in</b>, or 0 on error.</p>
+
+<p>SSL_add_cert_compression_alg() registers a certificate compression algorithm on <b>s</b> with algorithm identifier <b>alg_id</b>. The compress callback <b>compress</b> is used to compress the Certificate message, and decompress callback <b>decompress</b> is used to decompress compressed Certificate message in CompressedCertificate message. These callbacks can be NULL. Algorithms are registered in preference order with the most preferable first.</p>
+
+<p>RFC 8879 defines zlib, brotli and zstd compression algorithms corresponding to the following compression algorithm:</p>
+
+<dl>
+
+<dt id="TLSEXT_cert_compression_zlib">TLSEXT_cert_compression_zlib</dt>
+<dd>
+
+<p>ZLIB compression algorithm, as defined in RFC1950.</p>
+
+</dd>
+<dt id="TLSEXT_cert_compression_brotli">TLSEXT_cert_compression_brotli</dt>
+<dd>
+
+<p>Brotli compression algorithm, as defined in RFC7932.</p>
+
+</dd>
+<dt id="TLSEXT_cert_compression_zstd">TLSEXT_cert_compression_zstd</dt>
+<dd>
+
+<p>Zstandard compression algorithm, as defined in RFC8478.</p>
+
+</dd>
+</dl>
+
+<p>The algorithm id, 1-255 should be allocated under &quot;IETF Review&quot;, under &quot;Specification Required&quot; policy for values 256-16383, 16384-65535 can be used for user-defined compression algorithms or others.</p>
+
+<p>SSL_get_cert_compression_compress_id() returns the identifier of compression algorithm which has been used.</p>
+
+<p>SSL_get_cert_compression_decompress_id() returns the identifier of decompression algorithm which has been used.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>SSL_add_cert_compression_alg() and SSL_CTX_add_cert_compression_alg() return 1 on success or 0 on error.</p>
+
+<p>SSL_get_cert_compression_compress_id() return the used identifier of compression algorithm, if no compression algorithm is used, 0 is returned.</p>
+
+<p>SSL_get_cert_compression_decompress_id() return the used identifier of decompression algorithm, if no decompression algorithm is used, 0 is returned.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man7/ssl.html">ssl(7)</a></p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the Apache-2.0 license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>.</p>
+
+
+</body>
+
+</html>
+
+
