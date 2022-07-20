@@ -6,8 +6,6 @@ BabaSSL是一个现代的密码学和通信安全协议的基础库。BabaSSL诞
   * 支持GB/T 38636-2020 TLCP标准，即安全传输协议
   * 支持[QUIC](https://datatracker.ietf.org/doc/html/rfc9000) API
   * 支持Delegated Credentials功能，基于[draft-ietf-tls-subcerts-10](https://www.ietf.org/archive/id/draft-ietf-tls-subcerts-10.txt)
-  * 支持[RFC 8879](https://datatracker.ietf.org/doc/rfc8879/)，即证书压缩
-  * 支持EC-ElGamal半同态加密算法
   * ……
 
 ## 教程和API文档
@@ -26,14 +24,6 @@ BabaSSL是一个现代的密码学和通信安全协议的基础库。BabaSSL诞
 #### Delegated Credentials教程
 
 * [Delegated Credentials代码示例](Tutorial/DC/sample.md)
-
-#### 证书压缩教程
-
-* [Certificate Compression示例](Tutorial/cert_compression/sample.md)
-
-#### 半同态加密算法教程
-
-* [EC-ElGamal用法和例子](Tutorial/PHE/ec-elgamal-sample.md)
 
 ### man手册
 

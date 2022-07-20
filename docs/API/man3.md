@@ -145,7 +145,6 @@
 * [EVP_DigestVerifyInit](manpages/man3/EVP_DigestVerifyInit.html)
 * [EVP_EncodeInit](manpages/man3/EVP_EncodeInit.html)
 * [EVP_EncryptInit](manpages/man3/EVP_EncryptInit.html)
-* [EVP_KDF_CTX](manpages/man3/EVP_KDF_CTX.html)
 * [EVP_MD_meth_new](manpages/man3/EVP_MD_meth_new.html)
 * [EVP_OpenInit](manpages/man3/EVP_OpenInit.html)
 * [EVP_PKEY_ASN1_METHOD](manpages/man3/EVP_PKEY_ASN1_METHOD.html)

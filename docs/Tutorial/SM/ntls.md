@@ -1,14 +1,4 @@
-# NTLS使用手册
-
-## 编译NTLS功能
-
-NTLS在BabaSSL的属于中代指符合GM/T 0024 SSL VPN和TLCP协议的安全通信协议，其特点是采用加密证书/私钥和签名证书/私钥相分离的方式。
-
-在编译BabaSSL的时候，需要显式的指定编译参数方可开启NTLS的支持：
-
-~~~
-./config enable-ntls
-~~~
+# NTSL使用手册
 
 ## 特性使用（s_server/s_client工具验证）
 

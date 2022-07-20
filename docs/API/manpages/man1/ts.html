@@ -431,7 +431,7 @@
 <dt id="ess_cert_id_alg"><b>ess_cert_id_alg</b></dt>
 <dd>
 
-<p>This option specifies the hash function to be used to calculate the TSA&#39;s public key certificate identifier. Default is sha256. (Optional)</p>
+<p>This option specifies the hash function to be used to calculate the TSA&#39;s public key certificate identifier. Default is sha1. (Optional)</p>
 
 </dd>
 </dl>
@@ -442,7 +442,7 @@
 
 <h2 id="Time-Stamp-Request">Time Stamp Request</h2>
 
-<p>To create a time stamp request for design1.txt with SHA-256 without nonce and policy and no certificate is required in the response:</p>
+<p>To create a time stamp request for design1.txt with SHA-1 without nonce and policy and no certificate is required in the response:</p>
 
 <pre><code>  openssl ts -query -data design1.txt -no_nonce \
         -out design1.tsq</code></pre>
@@ -456,9 +456,9 @@
 
 <pre><code>  openssl ts -query -in design1.tsq -text</code></pre>
 
-<p>To create a time stamp request which includes the SHA-512 digest of design2.txt, requests the signer certificate and nonce, specifies a policy id (assuming the tsa_policy1 name is defined in the OID section of the config file):</p>
+<p>To create a time stamp request which includes the MD-5 digest of design2.txt, requests the signer certificate and nonce, specifies a policy id (assuming the tsa_policy1 name is defined in the OID section of the config file):</p>
 
-<pre><code>  openssl ts -query -data design2.txt -sha512 \
+<pre><code>  openssl ts -query -data design2.txt -md5 \
         -tspolicy tsa_policy1 -cert -out design2.tsq</code></pre>
 
 <h2 id="Time-Stamp-Response">Time Stamp Response</h2>

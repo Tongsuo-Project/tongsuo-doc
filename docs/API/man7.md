@@ -2,14 +2,6 @@
 
 本部分包含BabaSSL各种特性的整体说明。
 
-* [EVP_KDF_HKDF](manpages/man7/EVP_KDF_HKDF.html)
-* [EVP_KDF_KB](manpages/man7/EVP_KDF_KB.html)
-* [EVP_KDF_KRB5KDF](manpages/man7/EVP_KDF_KRB5KDF.html)
-* [EVP_KDF_PBKDF2](manpages/man7/EVP_KDF_PBKDF2.html)
-* [EVP_KDF_SCRYPT](manpages/man7/EVP_KDF_SCRYPT.html)
-* [EVP_KDF_SS](manpages/man7/EVP_KDF_SS.html)
-* [EVP_KDF_SSHKDF](manpages/man7/EVP_KDF_SSHKDF.html)
-* [EVP_KDF_TLS1_PRF](manpages/man7/EVP_KDF_TLS1_PRF.html)
 * [Ed25519](manpages/man7/Ed25519.html)
 * [RAND](manpages/man7/RAND.html)
 * [RAND_DRBG](manpages/man7/RAND_DRBG.html)

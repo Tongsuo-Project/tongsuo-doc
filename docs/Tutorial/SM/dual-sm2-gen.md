@@ -31,22 +31,22 @@ openssl ecparam -name SM2 -out server_sm2.param
 
 openssl req -config subca.cnf -newkey ec:server_sm2.param -nodes -keyout server_sign.key -sm3 -sigopt "sm2_id:1234567812345678" -new -out server_sign.csr -subj "/C=AA/ST=BB/O=CC/OU=DD/CN=server sign"
 
-openssl ca -config subca.cnf -extensions server_sign_req -days 3650 -in server_sign.csr -notext -out server_sign.crt -md sm3 -batch
+openssl ca -config subca.cnf -extensions sign_req -days 3650 -in server_sign.csr -notext -out server_sign.crt -md sm3 -batch
 
 openssl req -config subca.cnf -newkey ec:server_sm2.param -nodes -keyout server_enc.key -sm3 -sigopt "sm2_id:1234567812345678" -new -out server_enc.csr -subj "/C=AA/ST=BB/O=CC/OU=DD/CN=server enc"
 
-openssl ca -config subca.cnf -extensions server_enc_req -days 3650 -in server_enc.csr -notext -out server_enc.crt -md sm3 -batch
+openssl ca -config subca.cnf -extensions enc_req -days 3650 -in server_enc.csr -notext -out server_enc.crt -md sm3 -batch
 
 # client sm2 double certs
 openssl ecparam -name SM2 -out client_sm2.param
 
 openssl req -config subca.cnf -newkey ec:client_sm2.param -nodes -keyout client_sign.key -sm3 -sigopt "sm2_id:1234567812345678" -new -out client_sign.csr -subj "/C=AA/ST=BB/O=CC/OU=DD/CN=client sign"
 
-openssl ca -config subca.cnf -extensions client_sign_req -days 3650 -in client_sign.csr -notext -out client_sign.crt -md sm3 -batch
+openssl ca -config subca.cnf -extensions sign_req -days 3650 -in client_sign.csr -notext -out client_sign.crt -md sm3 -batch
 
 openssl req -config subca.cnf -newkey ec:client_sm2.param -nodes -keyout client_enc.key -sm3 -sigopt "sm2_id:1234567812345678" -new -out client_enc.csr -subj "/C=AA/ST=BB/O=CC/OU=DD/CN=client enc"
 
-openssl ca -config subca.cnf -extensions client_enc_req -days 3650 -in client_enc.csr -notext -out client_enc.crt -md sm3 -batch
+openssl ca -config subca.cnf -extensions enc_req -days 3650 -in client_enc.csr -notext -out client_enc.crt -md sm3 -batch
 ~~~
 
 ## ca.cnf
@@ -153,6 +153,28 @@ subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid:always,issuer
 basicConstraints = critical, CA:true, pathlen:0
 keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+[ usr_cert ]
+# Extensions for client certificates (`man x509v3_config`).
+basicConstraints = CA:FALSE
+nsCertType = client, email
+nsComment = "OpenSSL Generated Client Certificate"
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth, emailProtection
+delegationUsage = serverDelegation, clientDelegation
+
+[ server_cert ]
+# Extensions for server certificates (`man x509v3_config`).
+basicConstraints = CA:FALSE
+nsCertType = server
+nsComment = "OpenSSL Generated Server Certificate"
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+delegationUsage = serverDelegation, clientDelegation
 
 [ crl_ext ]
 # Extension for CRLs (`man x509v3_config`).
@@ -274,6 +296,29 @@ authorityKeyIdentifier = keyid:always,issuer
 basicConstraints = critical, CA:true, pathlen:0
 keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 
+[ usr_cert ]
+# Extensions for client certificates (`man x509v3_config`).
+basicConstraints = CA:FALSE
+nsCertType = client, email
+nsComment = "OpenSSL Generated Client Certificate"
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth, emailProtection
+delegationUsage = serverDelegation, clientDelegation
+
+[ server_cert ]
+# Extensions for server certificates (`man x509v3_config`).
+basicConstraints = CA:FALSE
+nsCertType = server
+nsComment = "OpenSSL Generated Server Certificate"
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+delegationUsage = serverDelegation, clientDelegation
+
 [ crl_ext ]
 # Extension for CRLs (`man x509v3_config`).
 authorityKeyIdentifier=keyid:always
@@ -286,26 +331,12 @@ authorityKeyIdentifier = keyid,issuer
 keyUsage = critical, digitalSignature
 extendedKeyUsage = critical, OCSPSigning
 
-[ server_sign_req ]
-# Extensions to add to a certificate request
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature
-# Add more items here, for instance:
-# subjectAltName = @alt_names
-
-[ server_enc_req ]
-# Extensions to add to a certificate request
-basicConstraints = CA:FALSE
-keyUsage = keyAgreement, keyEncipherment, dataEncipherment
-# Add more items here, for instance:
-# subjectAltName = @alt_names
-
-[ client_sign_req ]
+[ sign_req ]
 # Extensions to add to a certificate request
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature
 
-[ client_enc_req ]
+[ enc_req ]
 # Extensions to add to a certificate request
 basicConstraints = CA:FALSE
 keyUsage = keyAgreement, keyEncipherment, dataEncipherment
