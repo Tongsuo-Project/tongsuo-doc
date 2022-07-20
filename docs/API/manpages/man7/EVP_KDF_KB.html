@@ -1,0 +1,206 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>EVP_KDF_KB</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a>
+    <ul>
+      <li><a href="#Numeric-identity">Numeric identity</a></li>
+      <li><a href="#Supported-controls">Supported controls</a></li>
+    </ul>
+  </li>
+  <li><a href="#NOTES">NOTES</a></li>
+  <li><a href="#EXAMPLES">EXAMPLES</a></li>
+  <li><a href="#CONFORMING-TO">CONFORMING TO</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#HISTORY">HISTORY</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>EVP_KDF_KB - The Key-Based EVP_KDF implementation</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The EVP_KDF_KB algorithm implements the Key-Based key derivation function (KBKDF). KBKDF derives a key from repeated application of a keyed MAC to an input secret (and other optional values).</p>
+
+<h2 id="Numeric-identity">Numeric identity</h2>
+
+<p><b>EVP_KDF_KB</b> is the numeric identity for this implementation; it can be used with the EVP_KDF_CTX_new_id() function.</p>
+
+<h2 id="Supported-controls">Supported controls</h2>
+
+<p>The supported controls are:</p>
+
+<dl>
+
+<dt id="EVP_KDF_CTRL_SET_KB_MODE"><b>EVP_KDF_CTRL_SET_KB_MODE</b></dt>
+<dd>
+
+<p>This control expects one argument: <code>int mode</code></p>
+
+<p>Sets the mode for the KBKDF operation. There are two supported modes:</p>
+
+<dl>
+
+<dt id="EVP_KDF_KB_MODE_COUNTER"><b>EVP_KDF_KB_MODE_COUNTER</b></dt>
+<dd>
+
+<p>The counter mode of KBKDF should be used. This is the default.</p>
+
+</dd>
+<dt id="EVP_KDF_KB_MODE_FEEDBACK"><b>EVP_KDF_KB_MODE_FEEDBACK</b></dt>
+<dd>
+
+<p>The feedback mode of KBKDF should be used.</p>
+
+</dd>
+</dl>
+
+</dd>
+<dt id="EVP_KDF_CTRL_SET_KB_MAC_TYPE"><b>EVP_KDF_CTRL_SET_KB_MAC_TYPE</b></dt>
+<dd>
+
+<p>This control expects one argument: <code>int mac_type</code></p>
+
+<p>Sets the mac type for the KBKDF operation. There are two supported mac types:</p>
+
+<dl>
+
+<dt id="EVP_KDF_KB_MAC_TYPE_HMAC"><b>EVP_KDF_KB_MAC_TYPE_HMAC</b></dt>
+<dd>
+
+<p>The HMAC with the digest set by <b>EVP_KDF_CTRL_SET_MD</b> should be used as the mac.</p>
+
+</dd>
+<dt id="EVP_KDF_KB_MAC_TYPE_CMAC"><b>EVP_KDF_KB_MAC_TYPE_CMAC</b></dt>
+<dd>
+
+<p>The CMAC with the cipher set by <b>EVP_KDF_CTRL_SET_CIPHER</b> should be used as the mac.</p>
+
+</dd>
+</dl>
+
+</dd>
+<dt id="EVP_KDF_CTRL_SET_MD"><b>EVP_KDF_CTRL_SET_MD</b></dt>
+<dd>
+
+</dd>
+<dt id="EVP_KDF_CTRL_SET_CIPHER"><b>EVP_KDF_CTRL_SET_CIPHER</b></dt>
+<dd>
+
+</dd>
+<dt id="EVP_KDF_CTRL_SET_KEY"><b>EVP_KDF_CTRL_SET_KEY</b></dt>
+<dd>
+
+</dd>
+<dt id="EVP_KDF_CTRL_SET_SALT"><b>EVP_KDF_CTRL_SET_SALT</b></dt>
+<dd>
+
+<p>These controls work as described in <a href="../man3/EVP_KDF_CTX.html">&quot;CONTROLS&quot; in EVP_KDF_CTX(3)</a>.</p>
+
+</dd>
+<dt id="EVP_KDF_CTRL_SET_KB_INFO"><b>EVP_KDF_CTRL_SET_KB_INFO</b></dt>
+<dd>
+
+<p>This control expects two arguments: <code>unsigned char *info</code>, <code>size_t infolen</code></p>
+
+</dd>
+<dt id="EVP_KDF_CTRL_SET_KB_SEED"><b>EVP_KDF_CTRL_SET_KB_SEED</b></dt>
+<dd>
+
+<p>This control expects two arguments: <code>unsigned char *seed</code>, <code>size_t seedlen</code></p>
+
+<p>It is used only in the feedback mode and the length must be the same as the block length of the cipher in CMAC or the size of the digest in HMAC.</p>
+
+</dd>
+</dl>
+
+<p>The controls <b>EVP_KDF_CTRL_SET_KEY</b>, <b>EVP_KDF_CTRL_SET_SALT</b>, <b>EVP_KDF_CTRL_SET_KB_INFO</b>, and <b>EVP_KDF_CTRL_SET_KB_SEED</b> correspond to KI, Label, Context, and IV (respectively) in SP800-108. As in that document, salt, info, and seed are optional and may be omitted.</p>
+
+<p>Depending on whether mac is CMAC or HMAC, either digest or cipher is required (respectively) and the other is unused.</p>
+
+<h1 id="NOTES">NOTES</h1>
+
+<p>A context for KBKDF can be obtained by calling:</p>
+
+<pre><code> EVP_KDF_CTX *kctx = EVP_KDF_CTX_new_id(EVP_KDF_KB);</code></pre>
+
+<p>The output length of an KBKDF is specified via the <code>keylen</code> parameter to the <a href="../man3/EVP_KDF_derive.html">EVP_KDF_derive(3)</a> function.</p>
+
+<p>Note that currently OpenSSL only implements counter and feedback modes. Other variants may be supported in the future.</p>
+
+<h1 id="EXAMPLES">EXAMPLES</h1>
+
+<p>This example derives 10 bytes using COUNTER-HMAC-SHA256, with KI &quot;secret&quot;, Label &quot;label&quot;, and Context &quot;context&quot;.</p>
+
+<pre><code> EVP_KDF_CTX *kctx;
+ unsigned char out[10];
+
+ kctx = EVP_KDF_CTX_new_id(EVP_KDF_KB);
+
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_MD, EVP_sha256());
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_KB_MAC_TYPE, EVP_KDF_KB_MAC_TYPE_HMAC);
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_KEY, &quot;secret&quot;, strlen(&quot;secret&quot;));
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_SALT, &quot;label&quot;, strlen(&quot;label&quot;));
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_KB_INFO, &quot;context&quot;, strlen(&quot;context&quot;));
+ if (EVP_KDF_derive(kctx, out, sizeof(out)) &lt;= 0)
+     error(&quot;EVP_KDF_derive&quot;);
+
+ EVP_KDF_CTX_free(kctx);</code></pre>
+
+<p>This example derives 10 bytes using FEEDBACK-CMAC-AES256, with KI &quot;secret&quot;, Label &quot;label&quot;, Context &quot;context&quot;, and IV &quot;sixteen bytes iv&quot;.</p>
+
+<pre><code> EVP_KDF_CTX *kctx;
+ unsigned char out[10];
+ unsigned char *iv = &quot;sixteen bytes iv&quot;;
+
+ kctx = EVP_KDF_CTX_new_id(EVP_KDF_KB);
+
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_CIPHER, EVP_aes_256_cbc());
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_KB_MAC_TYPE, EVP_KDF_KB_MAC_TYPE_CMAC);
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_KB_MODE, EVP_KDF_KB_MODE_FEEDBACK);
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_KEY, &quot;secret&quot;, strlen(&quot;secret&quot;));
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_SALT, &quot;label&quot;, strlen(&quot;label&quot;));
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_KB_INFO, &quot;context&quot;, strlen(&quot;context&quot;));
+ EVP_KDF_ctrl(kctx, EVP_KDF_CTRL_SET_KB_SEED, iv, strlen(iv));
+ if (EVP_KDF_derive(kctx, out, sizeof(out)) &lt;= 0)
+     error(&quot;EVP_KDF_derive&quot;);
+
+ EVP_KDF_CTX_free(kctx);</code></pre>
+
+<h1 id="CONFORMING-TO">CONFORMING TO</h1>
+
+<p>NIST SP800-108, IETF RFC 6803, IETF RFC 8009.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man3/EVP_KDF_CTX.html">EVP_KDF_CTX(3)</a>, <a href="../man3/EVP_KDF_CTX_new_id.html">EVP_KDF_CTX_new_id(3)</a>, <a href="../man3/EVP_KDF_CTX_free.html">EVP_KDF_CTX_free(3)</a>, <a href="../man3/EVP_KDF_ctrl.html">EVP_KDF_ctrl(3)</a>, <a href="../man3/EVP_KDF_size.html">EVP_KDF_size(3)</a>, <a href="../man3/EVP_KDF_derive.html">EVP_KDF_derive(3)</a>, <a href="../man3/EVP_KDF_CTX.html">&quot;CONTROLS&quot; in EVP_KDF_CTX(3)</a></p>
+
+<h1 id="HISTORY">HISTORY</h1>
+
+<p>This functionality was added to OpenSSL 3.0.</p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2019 The OpenSSL Project Authors. All Rights Reserved. Copyright 2019 Red Hat, Inc.</p>
+
+<p>Licensed under the Apache License 2.0 (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+
