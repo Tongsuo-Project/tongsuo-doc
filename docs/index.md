@@ -35,6 +35,10 @@ BabaSSL是一个现代的密码学和通信安全协议的基础库。BabaSSL诞
 
 * [EC-ElGamal用法和例子](Tutorial/PHE/ec-elgamal-sample.md)
 
+#### BabaSSL 与其他 openssl 版本库共存方案
+
+* [BabaSSL 与其他 openssl 版本库共存方案](Tutorial/misc/depends-on-both-babassl-and-openssl.md)
+
 ### man手册
 
 BabaSSL的API可以通过传统的man手册的方式查看
