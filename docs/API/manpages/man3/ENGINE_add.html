@@ -31,7 +31,7 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>ENGINE_get_DH, ENGINE_get_DSA, ENGINE_by_id, ENGINE_get_cipher_engine, ENGINE_get_default_DH, ENGINE_get_default_DSA, ENGINE_get_default_RAND, ENGINE_get_default_RSA, ENGINE_get_digest_engine, ENGINE_get_first, ENGINE_get_last, ENGINE_get_next, ENGINE_get_prev, ENGINE_new, ENGINE_get_ciphers, ENGINE_get_ctrl_function, ENGINE_get_digests, ENGINE_get_destroy_function, ENGINE_get_finish_function, ENGINE_get_init_function, ENGINE_get_load_privkey_function, ENGINE_get_load_pubkey_function, ENGINE_load_private_key, ENGINE_load_public_key, ENGINE_get_RAND, ENGINE_get_RSA, ENGINE_get_id, ENGINE_get_name, ENGINE_get_cmd_defns, ENGINE_get_cipher, ENGINE_get_digest, ENGINE_add, ENGINE_cmd_is_executable, ENGINE_ctrl, ENGINE_ctrl_cmd, ENGINE_ctrl_cmd_string, ENGINE_finish, ENGINE_free, ENGINE_get_flags, ENGINE_init, ENGINE_register_DH, ENGINE_register_DSA, ENGINE_register_RAND, ENGINE_register_RSA, ENGINE_register_all_complete, ENGINE_register_ciphers, ENGINE_register_complete, ENGINE_register_digests, ENGINE_remove, ENGINE_set_DH, ENGINE_set_DSA, ENGINE_set_RAND, ENGINE_set_RSA, ENGINE_set_ciphers, ENGINE_set_cmd_defns, ENGINE_set_ctrl_function, ENGINE_set_default, ENGINE_set_default_DH, ENGINE_set_default_DSA, ENGINE_set_default_RAND, ENGINE_set_default_RSA, ENGINE_set_default_ciphers, ENGINE_set_default_digests, ENGINE_set_default_string, ENGINE_set_destroy_function, ENGINE_set_digests, ENGINE_set_finish_function, ENGINE_set_flags, ENGINE_set_id, ENGINE_set_init_function, ENGINE_set_load_privkey_function, ENGINE_set_load_pubkey_function, ENGINE_set_name, ENGINE_up_ref, ENGINE_get_table_flags, ENGINE_cleanup, ENGINE_load_builtin_engines, ENGINE_register_all_DH, ENGINE_register_all_DSA, ENGINE_register_all_RAND, ENGINE_register_all_RSA, ENGINE_register_all_ciphers, ENGINE_register_all_digests, ENGINE_set_table_flags, ENGINE_unregister_DH, ENGINE_unregister_DSA, ENGINE_unregister_RAND, ENGINE_unregister_RSA, ENGINE_unregister_ciphers, ENGINE_unregister_digests - ENGINE cryptographic module support</p>
+<p>ENGINE_get_DH, ENGINE_get_DSA, ENGINE_by_id, ENGINE_get_cipher_engine, ENGINE_get_default_DH, ENGINE_get_default_DSA, ENGINE_get_default_RAND, ENGINE_get_default_RSA, ENGINE_get_digest_engine, ENGINE_get_ecp_meth_engine, ENGINE_get_first, ENGINE_get_last, ENGINE_get_next, ENGINE_get_prev, ENGINE_new, ENGINE_get_ciphers, ENGINE_get_ctrl_function, ENGINE_get_digests, ENGINE_get_ecp_meths, ENGINE_get_destroy_function, ENGINE_get_finish_function, ENGINE_get_init_function, ENGINE_get_load_privkey_function, ENGINE_get_load_pubkey_function, ENGINE_load_private_key, ENGINE_load_public_key, ENGINE_get_RAND, ENGINE_get_RSA, ENGINE_get_id, ENGINE_get_name, ENGINE_get_cmd_defns, ENGINE_get_cipher, ENGINE_get_digest, ENGINE_get_ecp_meth, ENGINE_add, ENGINE_cmd_is_executable, ENGINE_ctrl, ENGINE_ctrl_cmd, ENGINE_ctrl_cmd_string, ENGINE_finish, ENGINE_free, ENGINE_get_flags, ENGINE_init, ENGINE_register_DH, ENGINE_register_DSA, ENGINE_register_RAND, ENGINE_register_RSA, ENGINE_register_all_complete, ENGINE_register_ciphers, ENGINE_register_complete, ENGINE_register_digests, ENGINE_register_ecp_meths, ENGINE_remove, ENGINE_set_DH, ENGINE_set_DSA, ENGINE_set_RAND, ENGINE_set_RSA, ENGINE_set_ciphers, ENGINE_set_cmd_defns, ENGINE_set_ctrl_function, ENGINE_set_default, ENGINE_set_default_DH, ENGINE_set_default_DSA, ENGINE_set_default_RAND, ENGINE_set_default_RSA, ENGINE_set_default_ciphers, ENGINE_set_default_digests, ENGINE_set_default_ecp_meths, ENGINE_set_default_string, ENGINE_set_destroy_function, ENGINE_set_digests, ENGINE_set_finish_function, ENGINE_set_flags, ENGINE_set_ecp_meths, ENGINE_set_id, ENGINE_set_init_function, ENGINE_set_load_privkey_function, ENGINE_set_load_pubkey_function, ENGINE_set_name, ENGINE_up_ref, ENGINE_get_table_flags, ENGINE_cleanup, ENGINE_load_builtin_engines, ENGINE_register_all_DH, ENGINE_register_all_DSA, ENGINE_register_all_RAND, ENGINE_register_all_RSA, ENGINE_register_all_ciphers, ENGINE_register_all_digests, ENGINE_register_all_ecp_meths, ENGINE_set_table_flags, ENGINE_unregister_DH, ENGINE_unregister_DSA, ENGINE_unregister_RAND, ENGINE_unregister_RSA, ENGINE_unregister_ciphers, ENGINE_unregister_digests, ENGINE_unregister_ecp_meths - ENGINE cryptographic module support</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
@@ -58,6 +58,7 @@
  ENGINE *ENGINE_get_default_RAND(void);
  ENGINE *ENGINE_get_cipher_engine(int nid);
  ENGINE *ENGINE_get_digest_engine(int nid);
+ ENGINE *ENGINE_get_ecp_meth_engine(int nid);
 
  int ENGINE_set_default_RSA(ENGINE *e);
  int ENGINE_set_default_DSA(ENGINE *e);
@@ -65,6 +66,7 @@
  int ENGINE_set_default_RAND(ENGINE *e);
  int ENGINE_set_default_ciphers(ENGINE *e);
  int ENGINE_set_default_digests(ENGINE *e);
+ int ENGINE_set_default_ecp_meths(ENGINE *e);
  int ENGINE_set_default_string(ENGINE *e, const char *list);
 
  int ENGINE_set_default(ENGINE *e, unsigned int flags);
@@ -92,6 +94,9 @@
  void ENGINE_register_all_digests(void);
  int ENGINE_register_complete(ENGINE *e);
  int ENGINE_register_all_complete(void);
+ void ENGINE_unregister_ecp_meths(ENGINE *e);
+ int ENGINE_register_ecp_meths(ENGINE *e);
+ int ENGINE_register_all_ecp_meths(void);
 
  int ENGINE_ctrl(ENGINE *e, int cmd, long i, void *p, void (*f)(void));
  int ENGINE_cmd_is_executable(ENGINE *e, int cmd);
@@ -118,6 +123,7 @@
  int ENGINE_set_load_pubkey_function(ENGINE *e, ENGINE_LOAD_KEY_PTR loadpub_f);
  int ENGINE_set_ciphers(ENGINE *e, ENGINE_CIPHERS_PTR f);
  int ENGINE_set_digests(ENGINE *e, ENGINE_DIGESTS_PTR f);
+ int ENGINE_set_ecp_meths(ENGINE *e, ENGINE_ECP_METHS_PTR f);
  int ENGINE_set_flags(ENGINE *e, int flags);
  int ENGINE_set_cmd_defns(ENGINE *e, const ENGINE_CMD_DEFN *defns);
 
@@ -135,8 +141,10 @@
  ENGINE_LOAD_KEY_PTR ENGINE_get_load_pubkey_function(const ENGINE *e);
  ENGINE_CIPHERS_PTR ENGINE_get_ciphers(const ENGINE *e);
  ENGINE_DIGESTS_PTR ENGINE_get_digests(const ENGINE *e);
+ ENGINE_ECP_METHS_PTR ENGINE_get_ecp_meths(const ENGINE *e);
  const EVP_CIPHER *ENGINE_get_cipher(ENGINE *e, int nid);
  const EVP_MD *ENGINE_get_digest(ENGINE *e, int nid);
+ const EC_POINT_METHOD *ENGINE_get_ecp_meth(ENGINE *e, int curve_id);
  int ENGINE_get_flags(const ENGINE *e);
  const ENGINE_CMD_DEFN *ENGINE_get_cmd_defns(const ENGINE *e);
 
@@ -162,6 +170,8 @@
        - similarly for other OpenSSL APIs
  EVP_CIPHER - potentially multiple cipher algorithms (indexed by &#39;nid&#39;)
  EVP_DIGEST - potentially multiple hash algorithms (indexed by &#39;nid&#39;)
+ EC_POINT_METHOD - for providing alternative EC_POINT implementations
+                   (indexed by &#39;nid&#39;)
  key-loading - loading public and/or private EVP_PKEY keys</code></pre>
 
 <h2 id="Reference-counting-and-handles">Reference counting and handles</h2>
@@ -356,7 +366,7 @@
 
 <p>ENGINE_init() and ENGINE_finish() return 1 on success or 0 on error.</p>
 
-<p>All ENGINE_get_default_TYPE() functions, ENGINE_get_cipher_engine() and ENGINE_get_digest_engine() return a valid <b>ENGINE</b> structure on success or NULL if an error occurred.</p>
+<p>All ENGINE_get_default_TYPE() functions, ENGINE_get_cipher_engine(), ENGINE_get_digest_engine() and ENGINE_get_ecp_meth_engine() return a valid <b>ENGINE</b> structure on success or NULL if an error occurred.</p>
 
 <p>All ENGINE_set_default_TYPE() functions return 1 on success or 0 on error.</p>
 
@@ -388,11 +398,13 @@
 
 <p>ENGINE_get_RSA(), ENGINE_get_DSA(), ENGINE_get_DH() and ENGINE_get_RAND() return corresponding method structures for each algorithms.</p>
 
-<p>ENGINE_get_destroy_function(), ENGINE_get_init_function(), ENGINE_get_finish_function(), ENGINE_get_ctrl_function(), ENGINE_get_load_privkey_function(), ENGINE_get_load_pubkey_function(), ENGINE_get_ciphers() and ENGINE_get_digests() return corresponding function pointers of the callbacks.</p>
+<p>ENGINE_get_destroy_function(), ENGINE_get_init_function(), ENGINE_get_finish_function(), ENGINE_get_ctrl_function(), ENGINE_get_load_privkey_function(), ENGINE_get_load_pubkey_function(), ENGINE_get_ciphers(), ENGINE_get_digests() and ENGINE_get_ecp_meths() return corresponding function pointers of the callbacks.</p>
 
 <p>ENGINE_get_cipher() returns a valid <b>EVP_CIPHER</b> structure on success or NULL if an error occurred.</p>
 
 <p>ENGINE_get_digest() returns a valid <b>EVP_MD</b> structure on success or NULL if an error occurred.</p>
+
+<p>ENGINE_get_ecp_meth() returns a valid <b>EC_POINT_METHOD</b> structure on success or NULL if an error occurred.</p>
 
 <p>ENGINE_get_flags() returns an integer representing the ENGINE flags which are used to control various behaviours of an ENGINE.</p>
 

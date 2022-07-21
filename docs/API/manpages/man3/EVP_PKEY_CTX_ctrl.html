@@ -120,7 +120,9 @@
 
 <p>The function EVP_PKEY_CTX_ctrl() sends a control operation to the context <b>ctx</b>. The key type used must match <b>keytype</b> if it is not -1. The parameter <b>optype</b> is a mask indicating which operations the control can be applied to. The control command is indicated in <b>cmd</b> and any additional arguments in <b>p1</b> and <b>p2</b>.</p>
 
-<p>For <b>cmd</b> = <b>EVP_PKEY_CTRL_SET_MAC_KEY</b>, <b>p1</b> is the length of the MAC key, and <b>p2</b> is MAC key. This is used by Poly1305, SipHash, HMAC and CMAC.</p>
+<p>For <b>cmd</b> = <b>EVP_PKEY_CTRL_SET_MAC_KEY</b>, <b>p1</b> is the length of the MAC key, and <b>p2</b> is MAC key. This is used by Poly1305, EIA3, SipHash, HMAC and CMAC.</p>
+
+<p>For <b>cmd</b> = <b>EVP_PKEY_CTRL_SET_IV</b>, <b>p1</b> is the length of the MAC iv, and <b>p2</b> is MAC iv. This is used by EIA3.</p>
 
 <p>Applications will not normally call EVP_PKEY_CTX_ctrl() directly but will instead call one of the algorithm specific macros below.</p>
 
