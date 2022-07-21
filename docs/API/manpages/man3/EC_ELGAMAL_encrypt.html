@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>EC_ELGAMAL_encrypt</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>EC_ELGAMAL_CTX_new, EC_ELGAMAL_CTX_free, EC_ELGAMAL_DECRYPT_TABLE_new, EC_ELGAMAL_DECRYPT_TABLE_free, EC_ELGAMAL_CTX_set_decrypt_table, EC_ELGAMAL_encrypt, EC_ELGAMAL_decrypt, EC_ELGAMAL_add, EC_ELGAMAL_sub, EC_ELGAMAL_mul, EC_ELGAMAL_CIPHERTEXT_new, EC_ELGAMAL_CIPHERTEXT_free, EC_ELGAMAL_CIPHERTEXT_encode, EC_ELGAMAL_CIPHERTEXT_decode - Functions for performing partially homomorphic encryption operations and tests</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> #include &lt;openssl/ec.h&gt;</code></pre>
+
+<p>EC_ELGAMAL_CTX *EC_ELGAMAL_CTX_new(EC_KEY *key); void EC_ELGAMAL_CTX_free(EC_ELGAMAL_CTX *ctx); EC_ELGAMAL_DECRYPT_TABLE *EC_ELGAMAL_DECRYPT_TABLE_new(EC_ELGAMAL_CTX *ctx, int32_t decrypt_negative); void EC_ELGAMAL_DECRYPT_TABLE_free(EC_ELGAMAL_DECRYPT_TABLE *table); void EC_ELGAMAL_CTX_set_decrypt_table(EC_ELGAMAL_CTX *ctx, EC_ELGAMAL_DECRYPT_TABLE *table); int EC_ELGAMAL_encrypt(EC_ELGAMAL_CTX *ctx, EC_ELGAMAL_CIPHERTEXT *r, int32_t plaintext); int EC_ELGAMAL_decrypt(EC_ELGAMAL_CTX *ctx, int32_t *r, EC_ELGAMAL_CIPHERTEXT *ciphertext); int EC_ELGAMAL_add(EC_ELGAMAL_CTX *ctx, EC_ELGAMAL_CIPHERTEXT *r, EC_ELGAMAL_CIPHERTEXT *c1, EC_ELGAMAL_CIPHERTEXT *c2); int EC_ELGAMAL_sub(EC_ELGAMAL_CTX *ctx, EC_ELGAMAL_CIPHERTEXT *r, EC_ELGAMAL_CIPHERTEXT *c1, EC_ELGAMAL_CIPHERTEXT *c2); int EC_ELGAMAL_mul(EC_ELGAMAL_CTX *ctx, EC_ELGAMAL_CIPHERTEXT *r, EC_ELGAMAL_CIPHERTEXT *c, int32_t m); EC_ELGAMAL_CIPHERTEXT *EC_ELGAMAL_CIPHERTEXT_new(EC_ELGAMAL_CTX *ctx); void EC_ELGAMAL_CIPHERTEXT_free(EC_ELGAMAL_CIPHERTEXT *ciphertext); size_t EC_ELGAMAL_CIPHERTEXT_encode(EC_ELGAMAL_CTX *ctx, unsigned char *out, size_t size, EC_ELGAMAL_CIPHERTEXT *ciphertext, int compressed); int EC_ELGAMAL_CIPHERTEXT_decode(EC_ELGAMAL_CTX *ctx, EC_ELGAMAL_CIPHERTEXT *r, unsigned char *in, size_t size);</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>A <b>EC_ELGAMAL_CTX</b> is a structure that holds <b>EC_ELGAMAL_CTX</b> temporary variables used by library functions. Since dynamic memory allocation to create <b>BIGNUM</b>s is rather expensive when used in conjunction with repeated subroutine calls, the <b>BN_CTX</b> structure is used.</p>
+
+<p>EC_ELGAMAL_CTX_new() allocates and initializes a <b>EC_ELGAMAL_CTX</b> structure.</p>
+
+<p>EC_ELGAMAL_CTX_free() frees the components of the <b>EC_ELGAMAL_CTX</b> and the structure itself. If <b>ctx</b> is NULL, nothing is done.</p>
+
+<p>EC_ELGAMAL_DECRYPT_TABLE_new() allocates and initializes a <b>EC_ELGAMAL_DECRYPT_TABLE</b> structure to decrypt the ciphertext, and parameter <b>decrypt_negative</b> indicates whether decryption of negative numbers is supported. The function creates an ecdlp bsgs hash table that is queried for plaintext when decrypted. Because creating the bsgs hash tables uses a lot of point operations and store operation results, it takes a long time and memory. Therefore, you do not need to create this table when encrypting, you only need to create it once when decrypting.</p>
+
+<p>EC_ELGAMAL_DECRYPT_TABLE_free() frees the components of the <b>EC_ELGAMAL_DECRYPT_TABLE</b> and the structure itself. If <b>table</b> is NULL, nothing is done.</p>
+
+<p>EC_ELGAMAL_CTX_set_decrypt_table() sets decrypt hash <b>table</b> into <b>ctx</b> to decrypt the ciphertext, which is not required by the encryptor.</p>
+
+<p>EC_ELGAMAL_encrypt() encrypts an integer <b>plaintext</b> and places the result in <b>r</b>.</p>
+
+<p>EC_ELGAMAL_decrypt() decrypts a ciphertext <b>ciphertext</b> and places the result in <b>r</b>. If the ecdlp bsgs hash table is set for this ctx before, look up the table to improve the decryption efficiency during discrete logarithmic operations, otherwise use the brust method to decrypt (this method is inefficient, slow, and does not support negative numbers).</p>
+
+<p>EC_ELGAMAL_add() adds the two ciphertexts <b>c1</b> and <b>c2</b> and places the result in <b>r</b>: r = c1 + c2.</p>
+
+<p>EC_ELGAMAL_sub() subtracts the two ciphertexts <b>c1</b> and <b>c2</b> and places the result in <b>r</b>: r = c1 - c2.</p>
+
+<p>EC_ELGAMAL_mul() calculates the multiplication of a ciphertext <b>c</b> and an plaintext <b>m</b> and places the result in <b>r</b>: r = c * m.</p>
+
+<p>EC_ELGAMAL_CIPHERTEXT_new() allocates a <b>EC_ELGAMAL_CIPHERTEXT</b> structure to store the result of EC_ELGAMAL_encrypt, EC_ELGAMAL_add, EC_ELGAMAL_sub, EC_ELGAMAL_mul, EC_ELGAMAL_CIPHERTEXT_decode.</p>
+
+<p>EC_ELGAMAL_CIPHERTEXT_free() frees the components of the <b>EC_ELGAMAL_CIPHERTEXT</b> and the structure itself. If <b>ciphertext</b> is NULL, nothing is done.</p>
+
+<p>EC_ELGAMAL_CIPHERTEXT_encode() encodes the structure pointed <b>ciphertext</b> to by <b>EC_ELGAMAL_CIPHERTEXT</b> into the buffer <b>out</b> of size <b>size</b> as binary format, if compressed is 1 then using compression conversion. The function EC_POINT_point2oct() must be supplied with a buffer long enough to store the binary form. If <b>out</b> is not <b>NULL</b>, it writes the binary encoded data to the buffer at <b>out</b>. If the return value is negative an error occurred, otherwise it returns the length of the encoded data. If <b>out</b> is <b>NULL</b>, it returns number of bytes needed.</p>
+
+<p>EC_ELGAMAL_CIPHERTEXT_decode() decodes a <b>EC_ELGAMAL_CIPHERTEXT</b> into <b>r</b> from the binary string contained in the given buffer <b>in</b> of <b>size</b>.</p>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<p>EC_ELGAMAL_CTX_new() return the newly allocated EC_ELGAMAL_CTX or NULL on error.</p>
+
+<p>EC_ELGAMAL_DECRYPT_TABLE_new() return the newly allocated EC_ELGAMAL_DECRYPT_TABLE or NULL on error.</p>
+
+<p>EC_ELGAMAL_CIPHERTEXT_new() return the newly allocated EC_ELGAMAL_CIPHERTEXT or NULL on error.</p>
+
+<p>The following functions return 1 on success or 0 on error: EC_ELGAMAL_encrypt(), EC_ELGAMAL_decrypt(), EC_ELGAMAL_add(), EC_ELGAMAL_sub(), EC_ELGAMAL_mul() and EC_ELGAMAL_CIPHERTEXT_decode().</p>
+
+<p>EC_ELGAMAL_CIPHERTEXT_encode() return the length of the required buffer or 0 on error.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man7/crypto.html">crypto(7)</a></p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the Apache-2.0 license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>.</p>
+
+
+</body>
+
+</html>
+
+
