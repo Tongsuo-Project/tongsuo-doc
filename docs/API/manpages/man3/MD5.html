@@ -24,20 +24,11 @@
 
 <h1 id="NAME">NAME</h1>
 
-<p>MD2, MD4, MD5, MD2_Init, MD2_Update, MD2_Final, MD4_Init, MD4_Update, MD4_Final, MD5_Init, MD5_Update, MD5_Final - MD2, MD4, and MD5 hash functions</p>
+<p>MD4, MD5, MD4_Init, MD4_Update, MD4_Final, MD5_Init, MD5_Update, MD5_Final - MD4 and MD5 hash functions</p>
 
 <h1 id="SYNOPSIS">SYNOPSIS</h1>
 
-<pre><code> #include &lt;openssl/md2.h&gt;
-
- unsigned char *MD2(const unsigned char *d, unsigned long n, unsigned char *md);
-
- int MD2_Init(MD2_CTX *c);
- int MD2_Update(MD2_CTX *c, const unsigned char *data, unsigned long len);
- int MD2_Final(unsigned char *md, MD2_CTX *c);
-
-
- #include &lt;openssl/md4.h&gt;
+<pre><code> #include &lt;openssl/md4.h&gt;
 
  unsigned char *MD4(const unsigned char *d, unsigned long n, unsigned char *md);
 
@@ -56,31 +47,31 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<p>MD2, MD4, and MD5 are cryptographic hash functions with a 128 bit output.</p>
+<p>MD4 and MD5 are cryptographic hash functions with a 128 bit output.</p>
 
-<p>MD2(), MD4(), and MD5() compute the MD2, MD4, and MD5 message digest of the <b>n</b> bytes at <b>d</b> and place it in <b>md</b> (which must have space for MD2_DIGEST_LENGTH == MD4_DIGEST_LENGTH == MD5_DIGEST_LENGTH == 16 bytes of output). If <b>md</b> is NULL, the digest is placed in a static array.</p>
+<p>MD4() and MD5() compute the MD4 and MD5 message digest of the <b>n</b> bytes at <b>d</b> and place it in <b>md</b> (which must have space for MD4_DIGEST_LENGTH == MD5_DIGEST_LENGTH == 16 bytes of output). If <b>md</b> is NULL, the digest is placed in a static array.</p>
 
 <p>The following functions may be used if the message is not completely stored in memory:</p>
 
-<p>MD2_Init() initializes a <b>MD2_CTX</b> structure.</p>
+<p>MD4_Init() initializes a <b>MD4_CTX</b> structure.</p>
 
-<p>MD2_Update() can be called repeatedly with chunks of the message to be hashed (<b>len</b> bytes at <b>data</b>).</p>
+<p>MD4_Update() can be called repeatedly with chunks of the message to be hashed (<b>len</b> bytes at <b>data</b>).</p>
 
-<p>MD2_Final() places the message digest in <b>md</b>, which must have space for MD2_DIGEST_LENGTH == 16 bytes of output, and erases the <b>MD2_CTX</b>.</p>
+<p>MD4_Final() places the message digest in <b>md</b>, which must have space for MD4_DIGEST_LENGTH == 16 bytes of output, and erases the <b>MD4_CTX</b>.</p>
 
-<p>MD4_Init(), MD4_Update(), MD4_Final(), MD5_Init(), MD5_Update(), and MD5_Final() are analogous using an <b>MD4_CTX</b> and <b>MD5_CTX</b> structure.</p>
+<p>MD5_Init(), MD5_Update() and MD5_Final() are analogous using an <b>MD5_CTX</b> structure.</p>
 
 <p>Applications should use the higher level functions <a href="../man3/EVP_DigestInit.html">EVP_DigestInit(3)</a> etc. instead of calling the hash functions directly.</p>
 
 <h1 id="NOTE">NOTE</h1>
 
-<p>MD2, MD4, and MD5 are recommended only for compatibility with existing applications. In new applications, SHA-1 or RIPEMD-160 should be preferred.</p>
+<p>MD4 and MD5 are recommended only for compatibility with existing applications. In new applications, SHA-1 or RIPEMD-160 should be preferred.</p>
 
 <h1 id="RETURN-VALUES">RETURN VALUES</h1>
 
-<p>MD2(), MD4(), and MD5() return pointers to the hash value.</p>
+<p>MD4() and MD5() return pointers to the hash value.</p>
 
-<p>MD2_Init(), MD2_Update(), MD2_Final(), MD4_Init(), MD4_Update(), MD4_Final(), MD5_Init(), MD5_Update(), and MD5_Final() return 1 for success, 0 otherwise.</p>
+<p>MD4_Init(), MD4_Update(), MD4_Final(), MD5_Init(), MD5_Update(), and MD5_Final() return 1 for success, 0 otherwise.</p>
 
 <h1 id="CONFORMING-TO">CONFORMING TO</h1>
 
