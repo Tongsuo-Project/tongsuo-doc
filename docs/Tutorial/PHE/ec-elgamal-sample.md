@@ -105,36 +105,36 @@ err:
 
 ## 编译和运行
 
-先确保 BabaSSL 开启 ec_elgamal，如果是手工编译 BabaSSL，可参考如下编译步骤：
+先确保 铜锁 开启 ec_elgamal，如果是手工编译 铜锁，可参考如下编译步骤：
 
 ~~~
 # 下载代码
-git clone git@github.com:BabaSSL/BabaSSL.git
+git clone git@github.com:Tongsuo-Project/Tongsuo.git
 
 
 # 编译参数需要加上：enable-ec_elgamal，我这里是在 macOS 系统上编译，所以是 darwin64-x86_64-cc，其他系统需要切换一下
-./Configure darwin64-x86_64-cc --debug no-shared no-threads enable-ec_elgamal --strict-warnings -fPIC --prefix=/usr/local/babassl-debug
+./Configure darwin64-x86_64-cc --debug no-shared no-threads enable-ec_elgamal --strict-warnings -fPIC --prefix=/usr/local/tongsuo-debug
 
 # 编译
 make -j4
 
-# 安装到目录 /usr/local/babassl-debug 
+# 安装到目录 /usr/local/tongsuo-debug
 sudo make install
 ~~~
 
 ## 编译 demo 程序
 
 ~~~
-gcc -Wall -g -o ec_elgamal_test ./ec_elgamal_test.c -I/usr/local/babassl-debug/include -L/usr/local/babassl-debug/lib -lssl -lcrypto
+gcc -Wall -g -o ec_elgamal_test ./ec_elgamal_test.c -I/usr/local/tongsuo-debug/include -L/usr/local/tongsuo-debug/lib -lssl -lcrypto
 ~~~
 
 ## 生成 ECC 公私钥
 
 ~~~
 # 先生成私钥，这里生成的是 SM2 曲线的私钥
-/usr/local/babassl-debug/bin/openssl ecparam -genkey -name SM2 -out ec-sk.pem
+/usr/local/tongsuo-debug/bin/openssl ecparam -genkey -name SM2 -out ec-sk.pem
 # 用私钥生成公钥
-/usr/local/babassl-debug/bin/openssl ec -in ./ec-sk.pem -pubout -out ec-pk.pem
+/usr/local/tongsuo-debug/bin/openssl ec -in ./ec-sk.pem -pubout -out ec-pk.pem
 ~~~
 
 ## 运行结果

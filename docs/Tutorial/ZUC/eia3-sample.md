@@ -1,7 +1,7 @@
 # ZUC 128-EIA3 例子
 
 ## 构建
-构建BabaSSL时需要开启ZUC算法，例如：
+构建Tongsuo时需要开启ZUC算法，例如：
 ```
 ./Configure enable-zuc
 ```
