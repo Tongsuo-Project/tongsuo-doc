@@ -1,9 +1,9 @@
-# 使用BabaSSL签发SM2双证书
+# 使用铜锁签发SM2双证书
 
 ## mkcert.sh
 
 ~~~
-export PATH=/usr/local/babassl-share/bin/:$PATH
+export PATH=/usr/local/tongsuo-share/bin/:$PATH
 
 rm -rf {newcerts,db,private,crl}
 mkdir {newcerts,db,private,crl}

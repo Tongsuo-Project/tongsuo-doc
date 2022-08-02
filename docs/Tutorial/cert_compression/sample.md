@@ -1,7 +1,7 @@
-# 应用程序使用BabaSSL证书压缩功能
+# 应用程序使用铜锁证书压缩功能
 
 ## 构建
-构建BabaSSL时需要开启证书压缩功能，例如：
+构建铜锁时需要开启证书压缩功能，例如：
 ```
 ./Configure enable-cert-compression
 ```
@@ -62,12 +62,12 @@ int main() {
 ```
 
 ## 命令行
-也可以使用BabaSSL提供的s_client和s_server来使用TLS证书压缩功能：
+也可以使用铜锁提供的s_client和s_server来使用TLS证书压缩功能：
 ```
 # 服务端
-/opt/babassl/bin/openssl s_server -accept 127.0.0.1:34567 -cert server.crt -key server.key -tls1_3 -cert_comp zlib -www -quiet
+/opt/tongsuo/bin/openssl s_server -accept 127.0.0.1:34567 -cert server.crt -key server.key -tls1_3 -cert_comp zlib -www -quiet
 
 # 客户端
-/opt/babassl/bin/openssl s_client -connect 127.0.0.1:34567 -tls1_3 -cert_comp zlib -ign_eof -trace
+/opt/tongsuo/bin/openssl s_client -connect 127.0.0.1:34567 -tls1_3 -cert_comp zlib -ign_eof -trace
 ```
 
