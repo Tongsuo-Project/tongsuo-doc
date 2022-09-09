@@ -1,0 +1,60 @@
+name: Sync yuque tongsuo docs
+# Jobs run daily
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  sync-doc:
+    strategy:
+      fail-fast: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install pyuque
+        run: pip install pyuque
+      - name: sync files from yuque ts doc
+        env:
+          YUQUE_TOKEN: ${{ secrets.YUQUE_TOKEN }} 
+        run: |
+          from pyuque.client import Yuque
+          import os
+          import shutil
+          import json
+
+          print(os.getcwd())
+
+          client = Yuque(os.environ['YUQUE_TOKEN'])
+
+          resp = client.repo_list_docs("tsdoc/ts")
+
+          # sync all docs from www.yuque.com/tsdoc/ts to sync1
+          if os.path.exists("sync1"):
+              shutil.rmtree("sync1")
+
+          os.mkdir("sync1")
+
+          for doc in resp['data']:
+              ctx = client.doc_get('tsdoc/ts', doc['id'], raw=1)
+              print(ctx['data']['title'])
+              #print(ctx['data']['format'])
+
+              if len(ctx['data']['body']) > 0:
+                  with open(os.path.join("sync1", ctx['data']['title'] + ".md"), mode="w") as f:
+                      f.write(ctx['data']['body'])
+
+          if os.path.exists("sync"):
+              shutil.rmtree("sync")
+
+          # sync1 => sync
+          os.rename("sync1", "sync")
+        shell: python
+      - name: Commit sync files
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'sync'
+          commit: --signoff
+          message: Auto sync docs from yuque daily
+
