@@ -225,11 +225,11 @@ gcc -Wall -g -o ./test ./test.c -I./ $INCS $DEPS $DEFINE -lpthread -ldl
 从上面的脚本可以看到：
 
 1. lopen 依赖 openssl-1.0.2，编译后打包成静态库：lopen.a
-1. lbaba 依赖 BabaSSL，编译后打包成静态库：lbaba.a
-1. lopen.a 和 openssl-1.0.2 的 libcrypto.a 打包成静态库：libopen.a
-1. lbaba.a 和 BabaSSL 的 libcrypto.a 打包成静态库：libbaba.a
-1. 通过 depend_babassl_first 参数来控制是否先依赖 libbaba.a，正常先依赖 libopen.a 再依赖 libbaba.a，脚本加参数 depend_babassl_first 则先依赖 libbaba.a 再依赖 libopen.a
-1. 通过 -DRSA_SIZE 参数来控制 print_rsa_size 函数是否编译和调用
+2. lbaba 依赖 BabaSSL，编译后打包成静态库：lbaba.a
+3. lopen.a 和 openssl-1.0.2 的 libcrypto.a 打包成静态库：libopen.a
+4. lbaba.a 和 BabaSSL 的 libcrypto.a 打包成静态库：libbaba.a
+5. 通过 depend_babassl_first 参数来控制是否先依赖 libbaba.a，正常先依赖 libopen.a 再依赖 libbaba.a，脚本加参数 depend_babassl_first 则先依赖 libbaba.a 再依赖 libopen.a
+6. 通过 -DRSA_SIZE 参数来控制 print_rsa_size 函数是否编译和调用
 
 下面分别来测试4个场景：
 
@@ -254,14 +254,14 @@ gcc -Wall -g -o ./test ./test.c -I./ $INCS $DEPS $DEFINE -lpthread -ldl
 
 1. 对于当前目标文件(.o)，查找其符号表：
    1. 将每一个当前目标文件定义的符号与已定义符号集合 D 进行对比，如果该符号已存在集合 D 中，说明符号重复定义了，链接器报错，整个编译过程终止，否则将该符号添加到集合 D 中，若该符号存在集合 U 则从集合 U 中删除；
-   1. 将每一个当前目标文件引用的符号与已定义符号集合 D 进行对比，如果该符号不在集合 D 中则将其添加到未定义符合集合 U 中；
-   1. 将当前目标文件加入列表 L 中；
-   1. 若当前目标文件属于静态库，则继续执行第2步；
+   2. 将每一个当前目标文件引用的符号与已定义符号集合 D 进行对比，如果该符号不在集合 D 中则将其添加到未定义符合集合 U 中；
+   3. 将当前目标文件加入列表 L 中；
+   4. 若当前目标文件属于静态库，则继续执行第2步；
 2. 对于当前静态库(.a)，查找其符号表：
    1. 第一次扫描时将当前静态库定义的所有符号加入集合 I 中；
-   1. 将集合 I 中的每一个符号与集合 U 进行匹配，若匹配中则说明该静态库被依赖，然后提取匹配中的符号所在的目标文件执行第1步，并将符号从集合 I 中删除；
+   2. 将集合 I 中的每一个符号与集合 U 进行匹配，若匹配中则说明该静态库被依赖，然后提取匹配中的符号所在的目标文件执行第1步，并将符号从集合 I 中删除；
 3. 当所有目录文件都扫描完成后，如果未定义符号集合 U 不为空，则说明当前输入的目标文件集合中有未定义错误，链接器报错，整个编译过程终止；
-3. 如果没有报错，将依赖的目标文件列表 L 按照可执行文件格式组装成可执行文件。
+4. 如果没有报错，将依赖的目标文件列表 L 按照可执行文件格式组装成可执行文件。
 
 了解上面链接器的工作原理后，现在对照 gcc 的编译命令来看看链接的过程：
 ```bash
@@ -270,8 +270,8 @@ gcc -Wall -g -o ./test ./test.c -I./ -I/root/github/openssl-1.0.2/include -I/roo
 链接器会先扫描 test.o，再扫描 libopen.a（里面有 lopen.a 和 openssl-1.0.2 的 libcrypto.a），然后再扫描 libbaba.a（里面有 lbaba.a 和 babassl 的 libcrypto.a）。
 
 1. 扫描 test.o，将 print_cert_info 和 print_x509_valid_time 加入到集合 U 中；
-1. 扫描 libopen.a，发现里面定义的符号 print_cert_info 在集合 U 中，提取该符号所在的目标文件 lopen.o 继续扫描其符号表，发现里面还依赖了 libcrypto.a 的 PEM、 X509 和 BIO 相关函数，然后将这些符号加入集合 U 中后继续扫描 libopen.a，一直扫描将所有依赖 libopen.a 的目标文件找出来为止，并将所有依赖的目标文件加入到列表 L 中；
-1. 扫描 libbaba.a， 发现里面定义的符号 print_x509_valid_time 在集合 U 中，提取该符号所在的目标文件 lbaba.o 继续扫描其符号表，发现里面还依赖了 libcrypto.a 的 PEM、X509、BIO 和 RSA 相关函数，继续扫描 libbaba.a，一直扫描将所有依赖 libbaba.a 的目标文件找出来为止，并将所有依赖的目标文件加入到列表 L 中；但是直接依赖的 PEM、X509、BIO 这几个函数已经在集合 D 中了，其所在的目标文件不会再加入列表 L 中，而所在的目标文件可能还有其他未定义符号，链接器会将其他未定义符号的定义所在目标文件找出来加入到列表中；
+2. 扫描 libopen.a，发现里面定义的符号 print_cert_info 在集合 U 中，提取该符号所在的目标文件 lopen.o 继续扫描其符号表，发现里面还依赖了 libcrypto.a 的 PEM、 X509 和 BIO 相关函数，然后将这些符号加入集合 U 中后继续扫描 libopen.a，一直扫描将所有依赖 libopen.a 的目标文件找出来为止，并将所有依赖的目标文件加入到列表 L 中；
+3. 扫描 libbaba.a， 发现里面定义的符号 print_x509_valid_time 在集合 U 中，提取该符号所在的目标文件 lbaba.o 继续扫描其符号表，发现里面还依赖了 libcrypto.a 的 PEM、X509、BIO 和 RSA 相关函数，继续扫描 libbaba.a，一直扫描将所有依赖 libbaba.a 的目标文件找出来为止，并将所有依赖的目标文件加入到列表 L 中；但是直接依赖的 PEM、X509、BIO 这几个函数已经在集合 D 中了，其所在的目标文件不会再加入列表 L 中，而所在的目标文件可能还有其他未定义符号，链接器会将其他未定义符号的定义所在目标文件找出来加入到列表中；
 
 gcc 命令加参数 -Wl,--verbose 可以把链接器的信息打出来（篇幅所限，下面已删掉其他无关信息）：
 ```bash
@@ -331,7 +331,7 @@ collect2: error: ld returned 1 exit status
 可见，链接器链接的目标文件顺序是 lopen.o、x509_cmp.o、pem_x509.o 、pem_lib.o、……、lbaba.o、x509_set.o、pem_all.o、nsseq.o、pem_pkey.o、pem_pk8.o、pem_lib.o、……，依赖关系如下：<br />![](https://cdn.nlark.com/yuque/0/2022/jpeg/26770235/1658228045012-7e170e93-beba-47ef-b4ea-cc4127d38d95.jpeg)<br />通过上图可以发现
 
 1. lopen.o 依赖外部定义的符号 PEM_read_bio_X509，所以链接器将 openssl-1.0.2  libcrypto.a 中的 pem_x509.o 加入依赖列表中，接着去扫描 pem_x509.o ，然后将 pem_x509.o 依赖外部定义的所有符号所在的目标文件也加入依赖列表（比如上图中将依赖的 PEM_ASN1_read 所在的目标文件 pem_lib.o 已加入依赖列表中）；
-1. lbaba.o 依赖外部定义的符号 PEM_read_bio_RSAPrivateKey，链接器会将 BabaSSL  libcrypto.a 中的 pem_all.o 加入依赖列表中，接着去扫描 pem_all.o，然后将依赖的 pem_pkey.o 及其依赖的 pem_lib.o 也加入依赖列表中，这是 BabaSSL 中的 pem_lib.o，里面定义的函数与上面 openssl-1.0.2 的 pem_lib.o 的重复了，所以链接器报错，其他符号的重复定义也是这个原因；
+2. lbaba.o 依赖外部定义的符号 PEM_read_bio_RSAPrivateKey，链接器会将 BabaSSL  libcrypto.a 中的 pem_all.o 加入依赖列表中，接着去扫描 pem_all.o，然后将依赖的 pem_pkey.o 及其依赖的 pem_lib.o 也加入依赖列表中，这是 BabaSSL 中的 pem_lib.o，里面定义的函数与上面 openssl-1.0.2 的 pem_lib.o 的重复了，所以链接器报错，其他符号的重复定义也是这个原因；
 
 把依赖顺序改一下，先依赖 libbaba.a 再依赖 libopen.a 看看：
 ```bash
@@ -395,7 +395,7 @@ C = CN, ST = CD, O = Internet Widgits Pty Ltd
 通过上面的问题复现和原理分析，可以知道链接器在扫描静态库时找依赖的目标文件与代码本身和指定的依赖顺序有很大的关系，修改代码和依赖顺序并不能解决问题，所以只能从静态库本身来找解决方案：
 
 1. 将依赖的相似静态库统一版本，比如上面的例子可以把 openssl-1.0.2 替换成 BabaSSL，这是最好的方案，但如果依赖 openssl-1.0.2 的静态库是第三方库，没有代码、无人维护或者不愿意改造，那就不好办了；
-1. 将依赖的相似静态库可见范围限制在自己的静态库中，不影响其他静态库， 比如上面的例子中，将 BabaSSL 的可见范围限制在 libbaba.a 中，对 libopen.a 不可见，这样在链接的时候就不会出现错乱的情况了。
+2. 将依赖的相似静态库可见范围限制在自己的静态库中，不影响其他静态库， 比如上面的例子中，将 BabaSSL 的可见范围限制在 libbaba.a 中，对 libopen.a 不可见，这样在链接的时候就不会出现错乱的情况了。
 
 第1个方案无需多言，第2个方案如何做呢，核心思想是：静态库中所有定义的符号（函数、全局变量）加前缀，通过宏来转换。<br />链接器是通过未定义符号来查找依赖的目标文件，那加前缀的符号就可以精确地找到自己确实需要的依赖目标文件了，为了让使用方不修改代码，需要提供一个宏定义的头文件来转换，只需要 #include 该宏定义头文件后重新编译即可。<br />如下是上面 Segmentation fault 例子依赖的 BabaSSL 加了前缀后重新编译后运行的结果：<br />![image.png](https://cdn.nlark.com/yuque/0/2022/png/26770235/1658153303953-9a17ca60-cb07-4676-87d1-c122a6782fdc.png#clientId=u013375ad-b60f-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=561&id=zAgNg&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1122&originWidth=2198&originalType=binary&ratio=1&rotation=0&showTitle=false&size=235576&status=done&style=none&taskId=ua7b9bf42-3c17-4a9b-aba9-946f6461577&title=&width=1099)<br />可见，运行正常，没有出现 Segmentation fault，如下图，lbaba.a 和 BabaSSL libcrypto.a 相关的几个符号表均已加了前缀：<br />![image.png](https://cdn.nlark.com/yuque/0/2022/png/26770235/1658153749851-9b558b21-740a-4e9d-a43a-d30bb1bd428a.png#clientId=u013375ad-b60f-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=758&id=Xlwev&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1516&originWidth=2200&originalType=binary&ratio=1&rotation=0&showTitle=false&size=362967&status=done&style=none&taskId=u79642475-e48b-4ac3-9924-c4d77aa7b35&title=&width=1100)<br />前提是在编译 BabaSSL 前需要在 config 脚本加上 `--symbol-prefix=BABA_`参数，意思是在二进制库的导出符号前面加上前缀 `BABA_`，BabaSSL 在编译过程中会自动生成头文件 `include/openssl/symbol_prefix.h`来定义所有导出符号的宏，如下图：<br />![image.png](https://cdn.nlark.com/yuque/0/2022/png/26770235/1658154139688-1d6716ad-1c6c-40c4-8536-3e501138536b.png#clientId=u013375ad-b60f-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=469&id=cORJZ&margin=%5Bobject%20Object%5D&name=image.png&originHeight=938&originWidth=2196&originalType=binary&ratio=1&rotation=0&showTitle=false&size=228891&status=done&style=none&taskId=u7fc500a3-bd68-453e-a6f0-a509251219b&title=&width=1098)<br />头文件 `include/openssl/symbol_prefix.h` 已经自动在 `include/openssl/opensslconf.h`中引入（如下图），而 `include/openssl/opensslconf.h`已经被其他头文件引入了，用户无需再引入 symbol_prefix.h 头文件了，只需要依赖新的 BabaSSL 重新编译即可。<br />![image.png](https://cdn.nlark.com/yuque/0/2022/png/26770235/1658154379993-1c2f35db-262a-40da-b0e7-dbedb30e4ea6.png#clientId=u013375ad-b60f-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=944&id=BuhXH&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1888&originWidth=2198&originalType=binary&ratio=1&rotation=0&showTitle=false&size=513832&status=done&style=none&taskId=u496bcf0b-4d13-4174-840b-e5bfd91d8eb&title=&width=1099)<br />BabaSSL 的 symbol-prefix 功能预计在 8.3.2 版本中发布，有兴趣深入了解实现细节可参考 pr：[https://github.com/BabaSSL/BabaSSL/pull/256](https://github.com/BabaSSL/BabaSSL/pull/256) <br />（PS：在 Linux 环境下可以通过 objcopy 工具来直接给静态库的符号加前缀，但在 MacOS、 iOS、Windows 环境下没有找到一个很好的工具来实现该功能，所以 BabaSSL 实现了 symbol-prefix 功能。）
 

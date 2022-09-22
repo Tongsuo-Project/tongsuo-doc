@@ -23,14 +23,14 @@ openssl ca -selfsign -config openssl.cnf -in csr/sm2-root.csr -extensions v3_ca 
 ```
 
 1. 通过步骤一，二生成中间证书的私钥和`sm2-intermediate-ca.csr`
-1. 生成中间ca
+2. 生成中间ca
 ```bash
 openssl ca -config openssl.cnf -extensions v3_intermediate_ca -days 3650  -in csr/sm2-intermediate-ca.csr -out sm2-intermediate-ca.crt -sigopt "sm2_id:1234567812345678" -sm2-id "1234567812345678" -md sm3
 ```
 
 1. 为中间ca编写`openssl_middleca.cnf`，见`BabaSSL/test_certs/sm2-cert`目录下
-1. 通过步骤一，二生成叶子证书的私钥和`sm2-leaf.csr`
-1. 生成叶子证书
+2. 通过步骤一，二生成叶子证书的私钥和`sm2-leaf.csr`
+3. 生成叶子证书
 ```bash
 openssl ca -config openssl_middleca.cnf -extensions server_cert -days 3650  -in csr/sm2-leaf.csr -out sm2-leaf.crt -sigopt "sm2_id:1234567812345678" -sm2-id "1234567812345678" -md sm3
 ```
