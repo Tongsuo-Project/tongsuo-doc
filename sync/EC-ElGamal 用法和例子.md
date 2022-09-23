@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     printf("EC_ELGAMAL_CIPHERTEXT_encode size: %zu\n", EC_ELGAMAL_CIPHERTEXT_encode(ctx2, NULL, 0, NULL, 1));
 
     ret = 0;
-    err:
+err:
     EC_KEY_free(sk_eckey);
     EC_KEY_free(pk_eckey);
     EC_ELGAMAL_DECRYPT_TABLE_free(table);
