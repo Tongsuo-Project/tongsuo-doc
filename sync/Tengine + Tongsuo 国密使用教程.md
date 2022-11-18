@@ -19,6 +19,7 @@
 ### Tongsuo
 
 - 版本：8.3.1 发布版本或者 master分支
+- 注意：如果不是使用 master 分支，请将 Tengine 编译参数中的 `--api=1.1.1`去掉
 <a name="jGg6U"></a>
 ## 配置
 ```bash
@@ -60,7 +61,7 @@
 <a name="NQJBN"></a>
 ### Tongsuo 编译
 ```bash
-./config --strict-warnings --api=1.1.1 --prefix=/opt/tongsuo --enable-ntls
+./config --strict-warnings --api=1.1.1 --prefix=/opt/tongsuo -enable-ntls
 make -j
 sudo make install
 ```
@@ -257,7 +258,7 @@ Dqz727tUTgIgdnRzfwdTJHkfIin8Ksr1+xMblSVC8+X8e+yONW9YoFg=
 <a name="OWqGO"></a>
 ### 单证书测试
 ```bash
-(cat req.txt; sleep 2) | /opt/tongsuo/bin/tongsuo s_client -connect localhost:443 -cipher ECC-SM2-WITH-SM4-SM3 -enable_ntls -ntls
+(cat req.txt; sleep 2) | /opt/tongsuo/bin/openssl s_client -connect localhost:443 -cipher ECC-SM2-WITH-SM4-SM3 -enable_ntls -ntls
 ```
 <a name="hIDqs"></a>
 ### 双证书测试
@@ -270,7 +271,7 @@ Dqz727tUTgIgdnRzfwdTJHkfIin8Ksr1+xMblSVC8+X8e+yONW9YoFg=
 1. 下载和安装360安全浏览器: [http://jinjiu.oss.aliyuncs.com/360se10.1.1670.0.exe](http://jinjiu.oss.aliyuncs.com/360se10.1.1670.0.exe)  （注意：360安全浏览器其他版本没有测试通过，可能是用法不对，也可能是客户端 bug）
 2. 启用国密
 
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/26770235/1666752825317-502d7e35-d30d-4416-ba4d-2117afd8bb29.png#clientId=ud5d17871-e8b4-4&crop=0&crop=0&crop=1&crop=1&height=848&id=HF2CZ&name=image.png&originHeight=1696&originWidth=1598&originalType=binary&ratio=1&rotation=0&showTitle=false&size=269996&status=done&style=none&taskId=u2c571e1d-e530-4211-b3c6-a4c3cdff6f8&title=&width=799)
+![image.png](https://cdn.nlark.com/yuque/0/2022/png/26770235/1666752825317-502d7e35-d30d-4416-ba4d-2117afd8bb29.png#averageHue=%23fcfcfb&clientId=ud5d17871-e8b4-4&crop=0&crop=0&crop=1&crop=1&height=848&id=HF2CZ&name=image.png&originHeight=1696&originWidth=1598&originalType=binary&ratio=1&rotation=0&showTitle=false&size=269996&status=done&style=none&taskId=u2c571e1d-e530-4211-b3c6-a4c3cdff6f8&title=&width=799)
 
 3. 配置信任的根证书
 

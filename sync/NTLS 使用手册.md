@@ -1,6 +1,6 @@
 <a name="dzfFU"></a>
 ## 编译 NTLS 功能
-NTLS 在 Tongsuo 的属于中代指符合 GM/T 0024 SSL VPN 和 TLCP 协议的安全通信协议，其特点是采用加密证书/私钥和签名证书/私钥相分离的方式。<br />在编译 Tongsuo 的时候，需要显式的指定编译参数方可开启 NTLS 的支持：
+NTLS 在 Tongsuo 的术语中代指符合 GM/T 0024 SSL VPN 和 TLCP 协议的安全通信协议，其特点是采用加密证书/私钥和签名证书/私钥相分离的方式。<br />在编译 Tongsuo 的时候，需要显式的指定编译参数方可开启 NTLS 的支持：
 ```bash
 ./config enable-ntls
 ```
