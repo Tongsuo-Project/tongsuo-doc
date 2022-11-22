@@ -61,7 +61,7 @@
 <a name="NQJBN"></a>
 ### Tongsuo 编译
 ```bash
-./config --strict-warnings --api=1.1.1 --prefix=/opt/tongsuo -enable-ntls
+./config --strict-warnings --api=1.1.1 --prefix=/opt/tongsuo enable-ntls
 make -j
 sudo make install
 ```
