@@ -19,6 +19,7 @@ cd curl
 # 依赖autoconf, automake, libtool
 autoreconf -fi
 
+# 依赖pkg-config，否则可能出现configure: error: --with-openssl was given but OpenSSL could not be detected
 # 如果configure失败，可能是curl依赖的库不存在，比如brotli，可以安装依赖库，或者关闭该选项，例如增加--without-brotli
 LDFLAGS=-Wl,-rpath=/opt/tongsuo/lib64 ./configure --enable-warnings --enable-werror --with-openssl=/opt/tongsuo
 
