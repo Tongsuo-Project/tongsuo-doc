@@ -256,14 +256,15 @@ Dqz727tUTgIgdnRzfwdTJHkfIin8Ksr1+xMblSVC8+X8e+yONW9YoFg=
 ```
 **（注意：以上证书和私钥仅用于测试，不能配置到生产环境中）**
 <a name="OWqGO"></a>
-### 单证书测试
+### ECC-SM2套件测试
 ```bash
-(cat req.txt; sleep 2) | /opt/tongsuo/bin/openssl s_client -connect localhost:443 -cipher ECC-SM2-WITH-SM4-SM3 -enable_ntls -ntls
+(cat req.txt; sleep 2) | /opt/tongsuo/bin/openssl s_client -connect localhost:443 -cipher ECC-SM2-SM4-CBC-SM3 -enable_ntls -ntls
 ```
 <a name="hIDqs"></a>
-### 双证书测试
+### ECDHE-SM2套件测试
+ECDHE-SM2套件需要设置客户端的签名和加密证书。
 ```bash
-(cat req.txt; sleep 2) | /opt/tongsuo/bin/openssl s_client -connect localhost:443 -cipher ECDHE-SM2-WITH-SM4-SM3 -enable_ntls -ntls -sign_cert Tongsuo/certs/CS.cert.pem -sign_key CS.key.pem -enc_cert CE.cert.pem -enc_key CE.key.pem -verifyCAfile CA.cert.pem
+(cat req.txt; sleep 2) | /opt/tongsuo/bin/openssl s_client -connect localhost:443 -cipher ECDHE-SM2-SM4-CBC-SM3 -enable_ntls -ntls -sign_cert Tongsuo/certs/CS.cert.pem -sign_key CS.key.pem -enc_cert CE.cert.pem -enc_key CE.key.pem -verifyCAfile CA.cert.pem
 ```
 <a name="I13pa"></a>
 ## 浏览器测试
