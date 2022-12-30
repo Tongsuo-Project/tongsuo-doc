@@ -1,3 +1,6 @@
+<a name="UloNH"></a>
+### SM2测试证书
+也可以直接使用Tongsuo项目里面的自签发SM2证书，仅用于测试；<br />服务端SM2证书，[https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2-first-crt.pem](https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2-first-crt.pem)<br />服务端SM2私钥，[https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2-first-key.pem](https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2-first-key.pem)<br />CA证书，[https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2-root.crt](https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2-root.crt)
 <a name="q5sOf"></a>
 ## 一. 生成 sm2 的私钥:
 ```bash
