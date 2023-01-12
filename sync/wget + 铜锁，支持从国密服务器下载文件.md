@@ -41,9 +41,15 @@ make install
 - --enc-cert，			客户端加密证书
 - --enc-key，			客户端加密私钥
 ```bash
-# TLCP
-wget --secure-protocol=tlcp https://127.0.0.1 --no-check-certificate
+# TLCP，检查服务端证书
+wget --secure-protocol=tlcp --ca-certificate=/path/to/ca.pem https://127.0.0.1
 
-# TLCP，使用套件ECDHE-SM2-SM4-CBC-SM3，需要配置客户端双证书
-wget --secure-protocol=tlcp --sign-cert=./sign.crt --sign-key=./sign.key --enc-cert=./enc.crt --enc-key=./enc.key https://127.0.0.1 --no-check-certificate --ciphers="ECDHE-SM2-SM4-CBC-SM3"
+# TLCP，不检查服务端证书
+wget --secure-protocol=tlcp --no-check-certificate https://127.0.0.1 
+
+# TLCP，密码套件ECDHE-SM2-SM4-CBC-SM3，需要配置客户端双证书，检查服务端证书
+wget --secure-protocol=tlcp --ciphers="ECDHE-SM2-SM4-CBC-SM3" --sign-cert=./sign.crt --sign-key=./sign.key --enc-cert=./enc.crt --enc-key=./enc.key --ca-certificate=/path/to/ca.pem https://127.0.0.1
+
+# TLCP，密码套件ECDHE-SM2-SM4-CBC-SM3，需要配置客户端双证书，不检查服务端证书
+wget --secure-protocol=tlcp --ciphers="ECDHE-SM2-SM4-CBC-SM3" --sign-cert=./sign.crt --sign-key=./sign.key --enc-cert=./enc.crt --enc-key=./enc.key --no-check-certificate https://127.0.0.1
 ```
