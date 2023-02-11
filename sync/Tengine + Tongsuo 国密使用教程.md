@@ -45,6 +45,9 @@
         ssl_enc_certificate             certs/SE.cert.pem;
         ssl_enc_certificate_key         certs/SE.key.pem;
 
+      	#国密套件
+      	ssl_ciphers "ECC-SM2-SM4-CBC-SM3:ECDHE-SM2-WITH-SM4-SM3:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA:AES128-GCM-SHA256:AES128-SHA256:AES128-SHA:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:AES256-GCM-SHA384:AES256-SHA256:AES256-SHA:ECDHE-RSA-AES128-SHA256:!aNULL:!eNULL:!RC4:!EXPORT:!DES:!3DES:!MD5:!DSS:!PKS";
+
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
 
         default_type            text/plain;
