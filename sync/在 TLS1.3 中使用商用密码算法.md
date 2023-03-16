@@ -8,9 +8,9 @@ RFC8998: [https://datatracker.ietf.org/doc/html/rfc8998](https://datatracker.iet
 ## 特性使用（s_client/s_server 工具验证）
 server 端：命令行输入
 ```bash
-openssl s_server -cert test_certs/sm2_cert/sm2-second.crt -key test_certs/sm2_cert/sm2-second.key -accept 127.0.0.1:4433
+openssl s_server -cert test/certs/sm2.pem -key test/certs/sm2.key -accept 127.0.0.1:4433
 ```
-client 端：命令行输入
+test/certs/sm2.pem -> [https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2.pem](https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2.pem)<br />test/certs/sm2.key -> [https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2.key](https://github.com/Tongsuo-Project/Tongsuo/blob/master/test/certs/sm2.key)<br />client 端：命令行输入
 ```bash
 openssl s_client -connect 127.0.0.1:4433 -tls1_3 -ciphersuites TLS_SM4_GCM_SM3
 ```
