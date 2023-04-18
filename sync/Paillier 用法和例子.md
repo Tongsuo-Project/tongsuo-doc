@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     printf("PAILLIER_decrypt(C500,800) result: %d, cost: %lfms\n", r, (double)(end - begin)/CLOCKS_PER_MSEC);
 
 
-    printf("PAILLIER_CIPHERTEXT_encode size: %zu\n", PAILLIER_CIPHERTEXT_encode(ctx2, NULL, 0, NULL, 1));
+    printf("PAILLIER_CIPHERTEXT_encode size: %zu\n", PAILLIER_CIPHERTEXT_encode(ctx2, NULL, 0, c3, 1));
 
     ret = 0;
 err:
@@ -130,6 +130,6 @@ PAILLIER_add(C2000021,C500) cost: 0.047000ms
 PAILLIER_decrypt(C20000021,C500) result: 20000521, cost: 0.471000ms
 PAILLIER_mul(C500,800) cost: 0.056000ms
 PAILLIER_decrypt(C500,800) result: 400000, cost: 0.464000ms
-PAILLIER_CIPHERTEXT_encode size: 0
+PAILLIER_CIPHERTEXT_encode size: 256
 ```
 
