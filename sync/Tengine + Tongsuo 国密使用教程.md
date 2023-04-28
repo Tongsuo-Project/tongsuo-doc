@@ -275,7 +275,7 @@ ECDHE-SM2套件需要设置客户端的签名和加密证书。
 1. 下载和安装360安全浏览器: [http://jinjiu.oss.aliyuncs.com/360se10.1.1670.0.exe](http://jinjiu.oss.aliyuncs.com/360se10.1.1670.0.exe)  （注意：360安全浏览器其他版本没有测试通过，可能是用法不对，也可能是客户端 bug）
 2. 启用国密
 
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/26770235/1666752825317-502d7e35-d30d-4416-ba4d-2117afd8bb29.png#averageHue=%23fcfcfb&clientId=ud5d17871-e8b4-4&height=848&id=HF2CZ&name=image.png&originHeight=1696&originWidth=1598&originalType=binary&ratio=1&rotation=0&showTitle=false&size=269996&status=done&style=none&taskId=u2c571e1d-e530-4211-b3c6-a4c3cdff6f8&title=&width=799)
+![image.png](https://cdn.nlark.com/yuque/0/2022/png/26770235/1666752825317-502d7e35-d30d-4416-ba4d-2117afd8bb29.png#averageHue=%23fcfcfb&clientId=ud5d17871-e8b4-4&height=848&id=HF2CZ&originHeight=1696&originWidth=1598&originalType=binary&ratio=1&rotation=0&showTitle=false&size=269996&status=done&style=none&taskId=u2c571e1d-e530-4211-b3c6-a4c3cdff6f8&title=&width=799)
 
 3. 配置信任的根证书
 
