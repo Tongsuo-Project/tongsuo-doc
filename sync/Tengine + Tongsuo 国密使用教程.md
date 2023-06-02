@@ -1,5 +1,6 @@
 <a name="oCL6W"></a>
 ## 版本
+如果你使用的是 nginx，请参考文档：[https://www.yuque.com/tsdoc/ts/xy1vvzogtycvh4ob](https://www.yuque.com/tsdoc/ts/xy1vvzogtycvh4ob)
 <a name="S2pR1"></a>
 ### Tengine
 
@@ -9,7 +10,7 @@
 ```bash
 ./configure --add-module=modules/ngx_openssl_ntls \
             --with-openssl=../Tongsuo \
-            --with-openssl-opt='--strict-warnings --api=1.1.1 enable-ntls' \
+            --with-openssl-opt='--api=1.1.1 enable-ntls' \
             --with-http_ssl_module \
             --with-stream \
             --with-stream_ssl_module \
@@ -18,7 +19,7 @@
 <a name="xXDCS"></a>
 ### Tongsuo
 
-- 版本：8.3.1 发布版本或者 master分支
+- 版本：8.3.1 及以上版本或者 master 分支
 - 注意：如果不是使用 master 分支，请将 Tengine 编译参数中的 `--api=1.1.1`去掉
 <a name="jGg6U"></a>
 ## 配置
