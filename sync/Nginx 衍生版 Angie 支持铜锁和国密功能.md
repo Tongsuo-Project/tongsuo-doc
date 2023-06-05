@@ -23,10 +23,11 @@
 ```bash
 $ ./configure --with-openssl=../Tongsuo-8.3.0 \
             --with-openssl-opt=enable-ntls  \
-            --with-ntls
+            --with-ntls --with-http_ssl_module 
 $ make -j
 $ make install
 ```
+注意一下：上面的配置命令中 Tongsuo-8.3.0 是源码目录，不是安装目录。
 <a name="Hwixp"></a>
 ### 配置
 
