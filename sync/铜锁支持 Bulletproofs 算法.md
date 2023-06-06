@@ -293,7 +293,7 @@ DTB3+0+l9n3kePOEypYowkaS3yvcV/f4i4ozY8ltkXsA
 -----END BULLETPROOFS WITNESS-----
 
 ```
-可以看出 proof_r1cs.pem 中包含了两段：R1CS PROOF 和 WITNESS，这里 WITNESS 的 V 就是密文证据。
+可以看出 proof-r1cs.pem 中包含了两段：R1CS PROOF 和 WITNESS，这里 WITNESS 的 V 就是密文证据。
 <a name="mKwbJ"></a>
 ### 验证（-verify）
 ```bash
