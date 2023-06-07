@@ -27,3 +27,8 @@ client 端：client 无需做修改，只需要强制指定算法套件为 TLS_S
 ```c
 SSL_CTX_set_ciphersuites(ctx, "TLS_SM4_GCM_SM3");
 ```
+
+设置 Key Share extension 中的曲线名称方法为（也可以不设置使用默认值即可）：
+```bash
+SSL_CTX_set1_curves_list(ctx, "SM2:X25519:prime256v1")
+```

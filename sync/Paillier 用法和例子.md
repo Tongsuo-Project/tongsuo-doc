@@ -116,7 +116,7 @@ gcc -Wall -g -o paillier_test ./paillier_test.c -I/opt/tongsuo/include -L/opt/to
 ## 生成 Paillier 公私钥
 ```bash
 # 先生成私钥
-/opt/tongsuo/bin/openssl paillier -keygen 2048 -out pail-key.pem
+/opt/tongsuo/bin/openssl paillier -keygen -out pail-key.pem 2048
 # 用私钥生成公钥
 /opt/tongsuo/bin/openssl paillier -pubgen -key_in ./pail-key.pem -out pail-pub.pem
 ```
