@@ -1,6 +1,6 @@
 <a name="T6jez"></a>
 ## 背景
-在许多应用场景中，需要证明一个值满足特定的范围条件，但又不希望透露该值的具体大小，传统的证明方法可能需要暴露更多的信息，而范围证明可以提供一种更高效、更隐私保护的方式来实现这一目标。Bulletproofs Range Proof（范围证明）就是这样一种高效的范围证明技术，Range Proof 也是 Bulletproofs 算法的一个重要应用，用于证明一个值位于指定的范围内：![](https://cdn.nlark.com/yuque/__latex/fc6d869621c39905cbb2106c5c1f57dc.svg#card=math&code=%5B0%2C%202%5En-1%5D&id=vR2iK)，（n 为指数，是 Range Proof 的重要参数）。<br />在加密货币交易中，范围证明可以用于证明交易金额在特定范围内，以确保交易的合法性和保护用户隐私，这可以防止恶意用户创建无效的交易或泄露敏感的交易金额信息。而 Bulletproofs 具有 proof 较小的特点，可以大大减小交易成本。以下是一些使用 Bulletproofs 的区块链项目：
+在许多应用场景中，需要证明一个值满足特定的范围条件，但又不希望透露该值的具体大小，传统的证明方法可能需要暴露更多的信息，而范围证明可以提供一种更高效、更隐私保护的方式来实现这一目标。Bulletproofs Range Proof（范围证明）就是这样一种高效的范围证明技术，Range Proof 也是 Bulletproofs 算法的一个重要应用，用于证明一个值位于指定的范围内：![](https://cdn.nlark.com/yuque/__latex/fc6d869621c39905cbb2106c5c1f57dc.svg#card=math&code=%5B0%2C%202%5En-1%5D&id=YNLx7)，（n 为指数，是 Range Proof 的重要参数）。<br />在加密货币交易中，范围证明可以用于证明交易金额在特定范围内，以确保交易的合法性和保护用户隐私，这可以防止恶意用户创建无效的交易或泄露敏感的交易金额信息。而 Bulletproofs 具有 proof 较小的特点，可以大大减小交易成本。以下是一些使用 Bulletproofs 的区块链项目：
 
 - Monero（门罗币）：Monero 是一种基于隐私的加密货币，它使用了 Bulletproofs 技术来实现交易的隐私和匿名性。Bulletproofs 可以帮助减小 Monero 交易的大小，提高交易的效率，并保护用户的隐私。
 - Grin：Grin 是一种基于 MimbleWimble 协议的加密货币，它使用了 Bulletproofs 技术来实现交易的隐私和可扩展性。Bulletproofs 在 Grin 中被用于构建零知识证明，以验证交易的有效性和保护用户的隐私。
@@ -21,7 +21,7 @@ $ tongsuo bulletproofs -ppgen -out ./pp.pem -curve_name sm2 -gens_capacity 16 -p
    - -ppgen：是 bulletproofs 的子命令，指公共参数的生成，pp 是 pub_param 的缩写，gen 是 generate 的缩写；
    - -out：输出文件路径；
    - -curve_name：椭圆曲线名称；
-   - -gens_capacity：椭圆曲线点生成器的容量，对于 range proof 来说，该数是 range 的比特位数。这里是 16 位，也就是证明的范围为：![](https://cdn.nlark.com/yuque/__latex/5b98de5d8e216826c50030217f3e648f.svg#card=math&code=%5B0%2C%202%5E%7B16%7D-1%5D&id=wT1SS)，即：![](https://cdn.nlark.com/yuque/__latex/42e4512b639923eb45d16b850abd953d.svg#card=math&code=%5B0%2C%2065535%5D&id=YrnzI)
+   - -gens_capacity：椭圆曲线点生成器的容量，对于 range proof 来说，该数是 range 的比特位数。这里是 16 位，也就是证明的范围为：![](https://cdn.nlark.com/yuque/__latex/5b98de5d8e216826c50030217f3e648f.svg#card=math&code=%5B0%2C%202%5E%7B16%7D-1%5D&id=hfLBh)，即：![](https://cdn.nlark.com/yuque/__latex/42e4512b639923eb45d16b850abd953d.svg#card=math&code=%5B0%2C%2065535%5D&id=Id5IO)
    - -party_capacity：可以生成聚合证明的最大参与方数量，仅对 range proof 有效，也就是批量范围证明的最大个数。这里是 4，也就是最多只能批量证明/验证4个数。
 - 文本显示公共参数
 
@@ -76,7 +76,7 @@ $ tongsuo bulletproofs -witness -pp_in ./pp.pem -out witness_range_exceeded_one.
    - -out：生成的证据文件路径，上述四条命令生成的四个证据文件分别为：
       - witness_range.pem：正常的 range 证据文件
       - witness_range_capacity_exceeded.pem：容量超出的证据文件，因为生成的公共参数支持的批量证明和验证个数为最多4个，这里指定了5个
-      - witness_range_exceeded.pem：range 范围超出的证据文件，因为生成的公共参数可证明和验证的二进制比特位为16，验证范围是 ![](https://cdn.nlark.com/yuque/__latex/0e195e326df3cd1a6efeebe87a9eb02e.svg#card=math&code=%5B0%2C%202%5E%7B16%7D%29&id=FoZg5)，也就是 0-65535，提交的 65535 在验证时会失败。
+      - witness_range_exceeded.pem：range 范围超出的证据文件，因为生成的公共参数可证明和验证的二进制比特位为16，验证范围是 ![](https://cdn.nlark.com/yuque/__latex/0e195e326df3cd1a6efeebe87a9eb02e.svg#card=math&code=%5B0%2C%202%5E%7B16%7D%29&id=UGpkj)，也就是 0-65535，提交的 65535 在验证时会失败。
       - witness_range_exceeded_one.pem：指定了3个数：11、22 和 65536，其中 11 和 22 正常，但 65536 超出范围了，这个 witness 文件生成的 proof 在验证时也会失败。
 - 显示证据
 ```bash
@@ -221,20 +221,21 @@ static int range_proofs_test(int bits, int64_t secrets[], int len)
 {
     int ret = 0, i;
     BIGNUM *v = NULL;
-    BP_PUB_PARAM *pp = NULL;
     BP_TRANSCRIPT *transcript = NULL;
+    BP_PUB_PARAM *pp = NULL;
     BP_WITNESS *witness = NULL;
     BP_RANGE_CTX *ctx = NULL;
     BP_RANGE_PROOF *proof = NULL;
 
     v = BN_new();
     
+    /* 创建交互抄本对象，证明者和验证者需要使用相同的方法和标签，否则验证失败 */
+    transcript = BP_TRANSCRIPT_new(BP_TRANSCRIPT_METHOD_sha256(), "test");
+    
     /* 创建公共参数对象，这里最大的批量验证个数为8 */
     pp = BP_PUB_PARAM_new_by_curve_id(NID_secp256k1, bits, 8);
 
-    /* 创建交互抄本对象，证明者和验证者需要使用相同的方法和标签，否则验证失败 */
-    transcript = BP_TRANSCRIPT_new(BP_TRANSCRIPT_METHOD_sha256(), "test");
-    if (v == NULL || pp == NULL || transcript == NULL)
+    if (v == NULL || transcript == NULL || pp == NULL)
         goto err;
 
     /* 创建该公共参数下的证据对象 */
@@ -283,7 +284,7 @@ int main(int argc, char *argv[])
     int64_t secrets[16];
 
     if (argc <= 1 || argc >= sizeof(secrets)/sizeof(secrets[0])) {
-        printf("parameter invalid!\n");
+        printf("Invalid parameter!\n");
         return -1;
     }
 
@@ -302,6 +303,27 @@ int main(int argc, char *argv[])
 }
 ```
 如上代码注释所示，一次完整的调用涉及5个数据结构，分别为：
+
+- `BP_TRANSCRIPT`
+
+该数据结构是交互抄本的结构，用来模拟交互式零知识方案中的交互，是 Bulletproofs 为非交互式零知识证明算法的关键，利用了 Fiat-Shamir 变换将其转变为随机预言机模型中的非交互式零知识方案。
+
+   - 创建/释放
+```c
+/*
+ * 创建 BP_TRANSCRIPT
+ * 参数：
+ *    method：目前仅实现了 sha256 的方法，通过调用 BP_TRANSCRIPT_METHOD_sha256() 获得，后续可以实现其他更高效的方法
+ *    label：证明者和验证者的标签/标识
+ */
+BP_TRANSCRIPT *BP_TRANSCRIPT_new(const BP_TRANSCRIPT_METHOD *method,
+                                 const char *label);
+
+/*
+ * 释放 BP_TRANSCRIPT
+ */
+void BP_TRANSCRIPT_free(BP_TRANSCRIPT *transcript);
+```
 
 - `BP_PUB_PARAM`
 
@@ -332,29 +354,22 @@ void BP_PUB_PARAM_free(BP_PUB_PARAM *pp);
 
    - 编码/解码
 ```c
-size_t BP_PUB_PARAM_encode(const BP_PUB_PARAM *pp, unsigned char *out, size_t size);
-BP_PUB_PARAM *BP_PUB_PARAM_decode(const unsigned char *in, size_t size);
-```
-
-- `BP_TRANSCRIPT`
-
-该数据结构是交互抄本的结构，用来模拟交互式零知识方案中的交互，是 Bulletproofs 为非交互式零知识证明算法的关键，利用了 Fiat-Shamir 变换将其转变为随机预言机模型中的非交互式零知识方案。
-
-   - 创建/释放
-```c
 /*
- * 创建 BP_TRANSCRIPT
+ * 编码 BP_PUB_PARAM 成二进制格式，写入 out 指定的内存区域中
  * 参数：
- *    method：目前仅实现了 sha256 的方法，通过调用 BP_TRANSCRIPT_METHOD_sha256() 获得，后续可以实现其他更高效的方法
- *    label：证明者和验证者的标签/标识
+ *    pp：公共参数对象
+ * 	  out：要写入的内存指针，如果为 NULL 则返回需要的内存大小，用于申请所需的内存
+ *    size：out 内存区域大小
  */
-BP_TRANSCRIPT *BP_TRANSCRIPT_new(const BP_TRANSCRIPT_METHOD *method,
-                                 const char *label);
+size_t BP_PUB_PARAM_encode(const BP_PUB_PARAM *pp, unsigned char *out, size_t size);
 
 /*
- * 释放 BP_TRANSCRIPT
+ * 解码 BP_PUB_PARAM
+ * 参数：
+ *    in：已编码的证明内存指针
+ *    size：in 指针内存区域大小
  */
-void BP_TRANSCRIPT_free(BP_TRANSCRIPT *transcript);
+BP_PUB_PARAM *BP_PUB_PARAM_decode(const unsigned char *in, size_t size);
 ```
 
 - `BP_WITNESS`
@@ -374,6 +389,18 @@ BP_WITNESS *BP_WITNESS_new(const BP_PUB_PARAM *pp);
  * 释放 BP_WITNESS
  */
 void BP_WITNESS_free(BP_WITNESS *witness);
+```
+
+   - 提交证据
+```c
+/*
+ * 提交变量到证据中
+ * 参数：
+ *    witness：证据对象
+ * 	  name：变量名称，range proof 不需要关注变量名称，设置为 NULL 即可
+ * 	  v：变量值，也就是明文证据值
+ */
+int BP_WITNESS_commit(BP_WITNESS *witness, const char *name, const BIGNUM *v);
 ```
 
    - 编码/解码
