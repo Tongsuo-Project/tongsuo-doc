@@ -2,8 +2,11 @@
 <a name="P7dyL"></a>
 ### 新增命令行参数
     -n, --ntls             Use NTLS (TLCP) instead of TLS，使用国密TLCP通信<br />    -C, --cipher      <S>  Cipher list，设置密码套件，例如ECC-SM2-SM4-CBC-SM3<br />    -S, --sign_cert   <F>  Signature certificate，设置客户端的签名证书<br />    -K, --sign_key    <F>  Signature key，设置客户端的签名私钥<br />    -E, --enc_cert    <F>  Encryption certificate，设置客户端的加密证书<br />    -Y, --enc_key     <F>  Encryption key，设置客户端的加密私钥
+<a name="Z4Jo9"></a>
+### 铜锁官网下载wrk
+[https://www.tongsuo.net/releases/](https://www.tongsuo.net/releases/)
 <a name="oG2jJ"></a>
-### 构建wrk
+### 基于源码构建wrk
 ```bash
 # wrk基于铜锁密码库测试国密性能，需要先构建铜锁密码库
 git clone https://github.com/Tongsuo-Project/Tongsuo

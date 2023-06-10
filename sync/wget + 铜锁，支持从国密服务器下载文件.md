@@ -1,6 +1,9 @@
 在GNU wget项目的基础上，基于[Tongsuo](https://github.com/Tongsuo-Project/Tongsuo)项目支持TLCP协议，即可以使用wget从国密web服务器下载文件。
+<a name="w5BCo"></a>
+### 铜锁官网下载wget
+[https://www.tongsuo.net/releases/](https://www.tongsuo.net/releases/)
 <a name="WccVJ"></a>
-### 构建wget
+### 基于源码构建wget
 基于源码构建wget，以Ubuntu操作系统为例：
 ```bash
 # 基于Tongsuo 8.3，需要先构建Tongsuo
