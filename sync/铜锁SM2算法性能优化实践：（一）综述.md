@@ -168,3 +168,6 @@ SM2算法64位平台性能优化功能的实现全面兼容铜锁现有架构，
 | SM2 verify | 12246/s | 6212/s | 6088/s | 2061/s | **+97.1%** |
 
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/38409340/1689040887463-1b39680b-4f40-466b-ae64-2cbc14b7815b.png#averageHue=%23fcfbf9&clientId=ub8ffd57e-7cfc-4&from=ui&height=333&id=u13aa0043&originHeight=656&originWidth=984&originalType=binary&ratio=2&rotation=0&showTitle=false&size=55759&status=done&style=none&taskId=ubd828d4d-11d0-4fb7-82a3-783166e79d4&title=&width=500)<br />性能测试结果表明，铜锁中针对SM2算法实现的64-bit 平台优化取得了较大的性能提升效果，符合优化工作的预期目标。从优化结果来看，签名算法的优化提升明显高于验签算法，这主要是因为签名算法的椭圆曲线多倍点运算是基点乘运算，可以使用预置的预计算表加速计算，而验签算法的椭圆曲线多倍点运算是普通点乘运算，曲线点是不固定的，因而无法利用预计算表实现性能的进一步突破。
+<a name="X4Rh1"></a>
+### 6 参考文献
+【1】《Fast Elliptic Curve Cryptography in OpenSSL》<br />【2】《Efficient and Secure Elliptic Curve Cryptography Implementation of Curve P-256》<br />【3】《Ultra High-Speed SM2 ASIC Implementation》<br />【4】《Fast Prime Field Elliptic Curve Cryptography with 256 Bit Primes》<br />【5】《一种基于图形处理器的高吞吐量SM2数字签名计算方案》
