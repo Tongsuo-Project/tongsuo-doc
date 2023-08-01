@@ -33,7 +33,7 @@
 ## 架构
 架构应具备以下特性：
 
-- 共享服务（Common Services）是应用程序和 Provider 可用的构建块，例如 BIO、X509、SECMEM、ASN.1 等。
+- 公共服务（Common Services）是应用程序和 Provider 可用的构建模块，例如 BIO、X509、SECMEM、ASN.1 等。
 - Provider 实现密码算法和支持服务。一个算法可能由多个操作组成（例如 RSA 可能有“加密”、“解密”、“签名”、“验证”等）。同样，一个操作（例如“签名”）可以由多个算法实现，比如 RSA 和 ECDSA。Provider 包含了算法的密码原语实现。此版本将包括以下 Provider：
    1. 默认 Provider（Default），包含当前非遗留（non-legacy）的 OpenSSL 密码算法；这将作为内置部分（即 libcrypto 的一部分）。
    2. 遗留 Provider（Legacy），包含旧算法的实现（例如 DES、MDC2、MD2、Blowfish、CAST）。
