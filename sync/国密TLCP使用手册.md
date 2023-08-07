@@ -29,8 +29,8 @@ openssl s_client -connect 127.0.0.1:4433 -cipher ECDHE-SM2-WITH-SM4-SM3 \
 -enable_ntls -ntls
 ```
 <a name="041f0a9c"></a>
-## 在你的 client/server 中使用（相关 api 使用）
-server 端
+## 客户端和服务端集成TLCP
+服务端代码片段如下所示，可编译的完整服务端代码可以参考[https://www.yuque.com/tsdoc/ts/gdwdfuoih2mxxotf#L7Ntj](https://www.yuque.com/tsdoc/ts/gdwdfuoih2mxxotf#L7Ntj)
 ```c
 int main() {
     //变量定义
@@ -77,7 +77,7 @@ int main() {
     con = SSL_new(ctx);
 }
 ```
-client端
+客户端代码片段如下所示，可编译的完整客户端可以参考[https://www.yuque.com/tsdoc/ts/gdwdfuoih2mxxotf#Zhkwt](https://www.yuque.com/tsdoc/ts/gdwdfuoih2mxxotf#Zhkwt)
 ```c
 int main() {
     //变量定义
