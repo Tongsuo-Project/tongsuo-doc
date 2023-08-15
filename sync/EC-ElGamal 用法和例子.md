@@ -109,7 +109,7 @@ git clone git@github.com:Tongsuo-Project/Tongsuo.git
 
 
 # 编译参数需要加上：enable-ec_elgamal
-./config  --debug no-shared no-threads enable-ec_elgamal --strict-warnings -fPIC --prefix=/opt/tongsuo
+./config  --debug no-shared no-threads enable-ec_elgamal --strict-warnings -fPIC --prefix=/opt/tongsuo 
 
 # 编译
 make -j
@@ -120,7 +120,7 @@ sudo make install
 <a name="9bc315ad"></a>
 ## 编译 demo 程序
 ```bash
-gcc -Wall -g -o ec_elgamal_test ./ec_elgamal_test.c -I/opt/tongsuo/include -L/opt/tongsuo/lib -lssl -lcrypto
+gcc -Wall -g -o ec_elgamal_test ./ec_elgamal_test.c -I/opt/tongsuo/include -L/opt/tongsuo/lib -lssl -lcrypto -Wl,-rpath,/opt/tongsuo/lib
 ```
 <a name="a99b5c19"></a>
 ## 生成 ECC 公私钥
