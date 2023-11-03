@@ -221,7 +221,7 @@ static int range_proofs_test(int bits, int64_t secrets[], int len)
 {
     int ret = 0, i;
     BIGNUM *v = NULL;
-    BP_TRANSCRIPT *transcript = NULL;
+    ZKP_TRANSCRIPT *transcript = NULL;
     BP_PUB_PARAM *pp = NULL;
     BP_WITNESS *witness = NULL;
     BP_RANGE_CTX *ctx = NULL;
@@ -230,7 +230,7 @@ static int range_proofs_test(int bits, int64_t secrets[], int len)
     v = BN_new();
     
     /* 创建交互抄本对象，证明者和验证者需要使用相同的方法和标签，否则验证失败 */
-    transcript = BP_TRANSCRIPT_new(BP_TRANSCRIPT_METHOD_sha256(), "test");
+    transcript = ZKP_TRANSCRIPT_new(ZKP_TRANSCRIPT_METHOD_sha256(), "test");
     
     /* 创建公共参数对象，这里最大的批量验证个数为8 */
     pp = BP_PUB_PARAM_new_by_curve_id(NID_secp256k1, bits, 8);
@@ -272,7 +272,7 @@ err:
     BP_RANGE_CTX_free(ctx);
     BP_WITNESS_free(witness);
     BP_PUB_PARAM_free(pp);
-    BP_TRANSCRIPT_free(transcript);
+    ZKP_TRANSCRIPT_free(transcript);
     BN_free(v);
 
     return ret;
@@ -304,25 +304,25 @@ int main(int argc, char *argv[])
 ```
 如上代码注释所示，一次完整的调用涉及5个数据结构，分别为：
 
-- `BP_TRANSCRIPT`
+- `ZKP_TRANSCRIPT`
 
 该数据结构是交互抄本的结构，用来模拟交互式零知识方案中的交互，是 Bulletproofs 为非交互式零知识证明算法的关键，利用了 Fiat-Shamir 变换将其转变为随机预言机模型中的非交互式零知识方案。
 
    - 创建/释放
 ```c
 /*
- * 创建 BP_TRANSCRIPT
+ * 创建 ZKP_TRANSCRIPT
  * 参数：
- *    method：目前仅实现了 sha256 的方法，通过调用 BP_TRANSCRIPT_METHOD_sha256() 获得，后续可以实现其他更高效的方法
+ *    method：目前仅实现了 sha256 的方法，通过调用 ZKP_TRANSCRIPT_METHOD_sha256() 获得，后续可以实现其他更高效的方法
  *    label：证明者和验证者的标签/标识
  */
-BP_TRANSCRIPT *BP_TRANSCRIPT_new(const BP_TRANSCRIPT_METHOD *method,
-                                 const char *label);
+ZKP_TRANSCRIPT *ZKP_TRANSCRIPT_new(const ZKP_TRANSCRIPT_METHOD *method,
+                                   const char *label);
 
 /*
- * 释放 BP_TRANSCRIPT
+ * 释放 ZKP_TRANSCRIPT
  */
-void BP_TRANSCRIPT_free(BP_TRANSCRIPT *transcript);
+void ZKP_TRANSCRIPT_free(ZKP_TRANSCRIPT *transcript);
 ```
 
 - `BP_PUB_PARAM`
@@ -438,7 +438,7 @@ range proof 操作上下文数据结构。
  *    witness：证据对象
  * 	  transcript：交互抄本对象
  */
-BP_RANGE_CTX *BP_RANGE_CTX_new(BP_PUB_PARAM *pp, BP_WITNESS *witness, BP_TRANSCRIPT *transcript);
+BP_RANGE_CTX *BP_RANGE_CTX_new(BP_PUB_PARAM *pp, BP_WITNESS *witness, ZKP_TRANSCRIPT *transcript);
 
 /*
  * 释放 BP_RANGE_CTX
