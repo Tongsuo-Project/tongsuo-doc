@@ -2,17 +2,19 @@
 ## 编译 NTLS 功能
 NTLS 在 Tongsuo 的术语中代指符合 GM/T 0024 SSL VPN 和 TLCP 协议的安全通信协议，其特点是采用加密证书/私钥和签名证书/私钥相分离的方式。<br />在编译 Tongsuo 的时候，需要显式的指定编译参数方可开启 NTLS 的支持：
 ```bash
-./config enable-ntls
+./config enable-ntls --prefix=/path/to/tongsuo
+make -j
+make install
 ```
 <a name="54bbd597"></a>
 ## 特性使用（s_server/s_client工具验证）
-测试用证书在`test_certs/double_cert`目录下<br />server 端：命令行输入
+测试用证书在`test/certs/sm2`目录下<br />server 端：命令行输入
 ```bash
 openssl s_server -accept 127.0.0.1:4433 \
--enc_cert test_certs/double_cert/SE.cert.pem \
--enc_key test_certs/double_cert/SE.key.pem \
--sign_cert test_certs/double_cert/SS.cert.pem \
--sign_key test_certs/double_cert/SS.key.pem \
+-enc_cert test/certs/sm2/server_enc.crt \
+-enc_key test/certs/sm2/server_enc.key \
+-sign_cert test/certs/sm2/server_sign.crt \
+-sign_key test/certs/sm2/server_sign.key \
 -enable_ntls
 ```
 client 端(测试 ECC-SM2-WITH-SM4-SM3 套件)：命令行输入
@@ -22,10 +24,10 @@ openssl s_client -connect 127.0.0.1:4433 -cipher ECC-SM2-WITH-SM4-SM3 -enable_nt
 client 端(测试 ECDHE-SM2-WITH-SM4-SM3 套件)：命令行输入
 ```bash
 openssl s_client -connect 127.0.0.1:4433 -cipher ECDHE-SM2-WITH-SM4-SM3 \
--sign_cert test_certs/double_cert/CS.cert.pem \
--sign_key test_certs/double_cert/CS.key.pem \
--enc_cert test_certs/double_cert/CE.cert.pem \
--enc_key test_certs/double_cert/CE.key.pem \
+-sign_cert test/certs/sm2/client_sign.crt \
+-sign_key test/certs/sm2/client_sign.key \
+-enc_cert test/certs/sm2/client_enc.crt \
+-enc_key test/certs/sm2/client_enc.key \
 -enable_ntls -ntls
 ```
 <a name="041f0a9c"></a>
