@@ -19,6 +19,8 @@ git clone https://github.com/Tongsuo-Project/curl.git
 
 cd curl
 
+git apply tongsuo.patch
+
 # 依赖autoconf, automake, libtool
 autoreconf -fi
 
